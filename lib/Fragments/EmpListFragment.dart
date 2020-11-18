@@ -94,7 +94,6 @@ class SecondFragmentState extends State<SecondFragment> {
     if(response['status']==200){
     empList.clear();
     var data = response['data'];
-    print('employee details get $response');
     for(var details in data){
     String id = details['id'];
     String name = details['name'];
@@ -199,9 +198,6 @@ class SecondFragmentState extends State<SecondFragment> {
                                       Text(empList[i].email,style: mainStyle.text14),
                                     ],
                                   ),
-                                  //SizedBox(height: 8),
-//                                  Text('Addrress',style: mainStyle.text14light),
-//                                  Text(empList[i].address,style: mainStyle.text14),
                                 ],
                               ),
                             ),
@@ -318,7 +314,6 @@ class SecondFragmentState extends State<SecondFragment> {
       Navigator.pop(context);
       var response = jsonDecode(value);
       if(response['status'] == 200){
-        // Navigator.pop(context);
         Fluttertoast.showToast(
             msg: "Employee Deleted",gravity: ToastGravity.CENTER,
             toastLength: Toast.LENGTH_LONG);
@@ -418,7 +413,6 @@ class SecondFragmentState extends State<SecondFragment> {
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      // print("Replay :"+reply);
       return reply;
     }
   }

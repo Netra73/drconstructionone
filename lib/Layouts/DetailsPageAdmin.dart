@@ -6,7 +6,6 @@ import 'package:drconstructions/Functions/UserData.dart';
 import 'package:drconstructions/Layouts/EmpSide/ScheduleOrder.dart';
 import 'package:drconstructions/Modules/EmpSide/paymentList.dart';
 import 'package:drconstructions/Styles/textstyle.dart';
-import 'package:drconstructions/main.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -22,7 +21,6 @@ class DetailsPageAdmin extends StatefulWidget{
     // TODO: implement createState
     return DetailsPageStateAdmin(Eid);
   }
-
 }
 
 class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
@@ -40,7 +38,6 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
   bool dateStatuscm = false;
 
 
-  //
   String radioPay,Epayid,EpaidAmt,strDate;
   var payidHolder = TextEditingController();
   var paidAmtHolder = TextEditingController();
@@ -60,13 +57,6 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
     // TODO: implement initState
     getorders();
     radioPay = "Cash";
-
-//    getData("USERData").then((value) {
-//      var response = jsonDecode(value);
-//      print('saved emp data $response');
-//      var data = response['userData'];
-//      empid = data['id'];
-//    });
 
     setState(() {
 
@@ -324,25 +314,6 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
                                   ),
                                 ),
 
-//                            Padding(
-//                              padding: const EdgeInsets.all(8.0),
-//                              child: Container(
-//                                decoration: BoxDecoration(
-//                                    color: _colors[colorchoose],
-//                                    borderRadius: BorderRadius.only(
-//                                        topRight: Radius.circular(15.0),
-//                                        bottomRight: Radius.circular(15.0),
-//                                        topLeft: Radius.circular(15.0),
-//                                        bottomLeft: Radius.circular(15.0))
-//                                ),
-//                                width: double.infinity,
-//                                child:Padding(
-//                                  padding: const EdgeInsets.all(8.0),
-//                                  child: Container(
-//                                      child: Text(strStatus,style: mainStyle.text14,textAlign: TextAlign.center,)),
-//                                ),
-//                              ),
-//                            ),
                               ],
                             ),
                           ),
@@ -448,7 +419,7 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
                     }
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('loading',style: TextStyle(fontSize: 20),),
+                      child: Text('loading..',style: TextStyle(fontSize: 20),),
                     );
                   }
               )
@@ -458,248 +429,12 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
     );
   }
 
-  void _makePayment(String payid) {
-    String radioPay,Epayid,EpaidAmt,strDate;
-    var payidHolder = TextEditingController();
-    var paidAmtHolder = TextEditingController();
-
-    _successDialog(payid);
-  }
-
-
-  _successDialog(String id) {
-    return showDialog<String>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context,setState){
-            return Center(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Card(
-                      child: Form(
-                        key: _loginForm,
-                        child: Center(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Expanded(
-                                child:Container(
-                                  color: Colors.white,
-                                  margin: const EdgeInsets.fromLTRB(10, 15, 10, 20),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(8,5,8,12),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.fromLTRB(10,0,10,10),
-                                              child: Text('Select Payment Type',style: TextStyle(fontSize: 16.0,color: Colors.grey),),
-                                            ),
-                                            Column(
-                                              children: [
-                                                RadioListTile(
-                                                  groupValue: radioPay,
-                                                  title: Row(children: [Image.asset('assets/images/cash.png',width: 30,height: 30,),Text(' Cash')],),
-                                                  value: 'Cash',
-                                                  onChanged: (val){
-                                                    setState(() {
-                                                      radioPay = val;
-                                                    });
-                                                  },
-                                                ),
-                                                RadioListTile(
-                                                  groupValue: radioPay,
-                                                  title: Row(children: [Image.asset('assets/images/gpay.png',width: 30,height: 30,)],),
-                                                  value: 'Google Pay',
-                                                  onChanged: (val){
-                                                    setState(() {
-                                                      radioPay = val;
-                                                    });
-                                                  },
-                                                ),
-                                                RadioListTile(
-                                                  groupValue: radioPay,
-                                                  title: Row(children: [Image.asset('assets/images/phonepay.png',width: 30,height: 30,)],),
-                                                  value: 'Phone Pay',
-                                                  onChanged: (val){
-                                                    setState(() {
-                                                      radioPay = val;
-                                                    });
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            TextFormField(controller: payidHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-                                              const Radius.circular(0.0),
-                                            ),
-                                              borderSide: new BorderSide(
-                                                color: Colors.black,
-                                                width: 1.0,
-                                              ),),
-                                                hintText: 'Payment Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty) {
-                                                  return 'Payment Id is required';
-                                                }
-                                              },
-                                              onSaved: (value){
-                                                Epayid = value;
-                                              }
-                                              ,),
-                                            SizedBox(height: 10),
-                                            TextFormField(controller: paidAmtHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-                                              const Radius.circular(0.0),
-                                            ),
-                                              borderSide: new BorderSide(
-                                                color: Colors.black,
-                                                width: 1.0,
-                                              ),),
-                                                hintText: 'Amount',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,keyboardType: TextInputType.number,
-                                              validator: (value){
-                                                if(value == null || value.isEmpty) {
-                                                  return 'Amount is required';
-                                                }
-                                              },
-                                              onSaved: (value){
-                                                EpaidAmt = value;
-                                              }
-                                              ,),
-                                            SizedBox(height: 10),
-                                            GestureDetector(
-                                              onTap: (){
-                                                _selectDate(context);
-                                              },
-                                              child: AbsorbPointer(
-                                                child: TextFormField(controller: _date,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-                                                  const Radius.circular(0.0),
-                                                ),
-                                                  borderSide: new BorderSide(
-                                                    color: Colors.black,
-                                                    width: 1.0,
-                                                  ),),
-                                                    hintText: 'Date',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,keyboardType: TextInputType.datetime,
-                                                  validator: (value){
-                                                    if(value == null || value.isEmpty) {
-                                                      return 'Date is required';
-                                                    }
-                                                  },
-                                                  onSaved: (value){
-                                                    strDate = value;
-                                                  }
-                                                  ,),
-                                              ),
-                                            ),
-                                            SizedBox(height: 10),
-
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              child: RaisedButton(
-                                                onPressed: (){
-                                                  if(_loginForm.currentState.validate()){
-                                                    _loginForm.currentState.save();
-                                                    var body = {
-                                                      'orderId' : id,
-                                                      'paymentPaid' : EpaidAmt,
-                                                      'paymentMode' : radioPay,
-                                                      'paymentId' : Epayid,
-                                                      'paymentDate' : dateFormate,
-                                                    };
-                                                    print('paymentdddd body $body');
-                                                    paymentMethod(body).then((value) {
-                                                      var response = jsonDecode(value);
-                                                      print('paymentdddd $response');
-                                                      if(response['status'] == 200){
-                                                        payidHolder.text = "";
-                                                        paidAmtHolder.text = "";
-                                                        _date.text = "";
-                                                        // var data = response['data'];
-                                                        Fluttertoast.showToast(
-                                                            msg: "Payment ID Added",gravity: ToastGravity.CENTER,
-                                                            toastLength: Toast.LENGTH_LONG);
-                                                        Navigator.pop(context);
-                                                      }
-                                                      setState(() {
-
-                                                      });
-                                                      if(response['status'] == 422){
-                                                        Fluttertoast.showToast(
-                                                            msg: "Error",gravity: ToastGravity.CENTER,
-                                                            toastLength: Toast.LENGTH_LONG);
-                                                      }
-                                                      setState(() {
-
-                                                      });
-                                                    });
-                                                  }
-                                                },
-                                                color: Colors.red,
-                                                child: Text('SUBMIT',style: TextStyle(fontSize:18,color: Colors.white),),
-                                              ),
-                                            ),
-                                            Container(
-                                              child: RaisedButton(
-                                                onPressed: (){
-                                                  Navigator.pop(context);
-                                                },
-                                                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                                color: Colors.grey,
-                                                child: Text('CANCEL',style: TextStyle(fontSize: 16.0,color: Colors.white),),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        );
-      },
-    ).then((value){
-      setState(() {
-
-      });
-      if(value==null){
-//        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//            ProductList()), (Route<dynamic> route) => false);
-      }
-    });
-  }
-
-
-
 
   Future<String> getorders() async {
-    // print('empididdddddddddddd $empid');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order/'+Eid));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', 'e10adc3949ba59abbe56e057f20f883e');
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
@@ -724,21 +459,6 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
     });
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-        dateFormate = DateFormat("yyyy-MM-dd").format(picked);
-        String  dateFormate2 = DateFormat("dd-MM-yyyy").format(picked);
-        _date.value = TextEditingValue(text: dateFormate2.toString());
-      });
-  }
-
   Future<String> paymentMethod(body) async {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.postUrl(Uri.parse(API_URL+'payment'));
@@ -749,7 +469,6 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }
@@ -848,17 +567,14 @@ class DetailsPageStateAdmin extends State<DetailsPageAdmin>{
 
 
   Future<String> deleteP(String type) async {
-    // print('empididdddddddddddd $emp');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.deleteUrl(Uri.parse(API_URL+'order/'+type));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', 'e10adc3949ba59abbe56e057f20f883e');
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }

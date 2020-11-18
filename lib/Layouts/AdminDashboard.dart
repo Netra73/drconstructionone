@@ -99,7 +99,6 @@ class AdminDashState extends State<AdminDash>{
         titleSpacing: 0.0,
         title:
         Row(
-         // mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset('assets/images/logo.png',height: 30,width: 30,),
@@ -155,22 +154,6 @@ class FirstFragmentState extends State<FirstFragment> {
   var Norder="0",Nscheduled="0",Ncompleted="0";
   List<RecentOrModule>recentList = [];
 
-
-//  @override
-//  void initState() {
-//    getSettings().then((value) {
-//      var response = jsonDecode(value);
-//      print('settings response $response');
-//      var data = response['data'];
-//      var summary = data['summary'];
-//       Norder = summary['order'];
-//       Nscheduled = summary['scheduled'];
-//       Ncompleted = summary['completed'];
-//       setState(() {
-//
-//       });
-//    });
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,8 +235,6 @@ class FirstFragmentState extends State<FirstFragment> {
                                 decoration: BoxDecoration(
                                   border: Border.all(width: 2,color: Colors.blue),
                                   shape: BoxShape.circle,
-                                  // You can use like this way or like the below line
-                                  //borderRadius: new BorderRadius.circular(30.0),
                                   color: Colors.white,
                                 ),
                                 child:Column(
@@ -285,8 +266,6 @@ class FirstFragmentState extends State<FirstFragment> {
                                 decoration: BoxDecoration(
                                   border: Border.all(width: 2,color: Colors.green),
                                   shape: BoxShape.circle,
-                                  // You can use like this way or like the below line
-                                  //borderRadius: new BorderRadius.circular(30.0),
                                   color: Colors.white,
                                 ),
                                 child:Column(
@@ -316,7 +295,6 @@ class FirstFragmentState extends State<FirstFragment> {
                     if(response['status']==200){
                       recentList.clear();
                       var data = response['data'];
-                      print('employee details get $response');
                       for(var details in data){
                         if(details['product']!=null){
                           String id = details['id'];
@@ -504,17 +482,14 @@ class FirstFragmentState extends State<FirstFragment> {
   }
 
   Future<String> getorders(String type) async {
-   // print('empididdddddddddddd $emp');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order/?type='+type));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', 'e10adc3949ba59abbe56e057f20f883e');
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }

@@ -126,7 +126,7 @@ class EditSettingsState extends State<EditSettings>{
                               hintText: 'Mail Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                             validator: (value){
                               if(value == null || value.isEmpty) {
-                                return 'Mail Id is required';
+                                return emailRequired(value, "Valid Mail Id is required");
                               }
                             },
                             onSaved: (value){
@@ -233,6 +233,22 @@ class EditSettingsState extends State<EditSettings>{
     );
   }
 
+  String validateEmail(String value,String error) {
+    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return error;
+    else
+      return null;
+  }
+
+  String emailRequired(String value,String error) {
+    if (value == null || value.isEmpty) {
+      return error;
+    } else {
+      return validateEmail(value,error);
+    }
+  }
   void submitAdd(){
     var body = {
       'name' : EName,
@@ -243,10 +259,8 @@ class EditSettingsState extends State<EditSettings>{
       'gstRate': EgstRate,
       'pumpCharge': Epump,
     };
-   // print('Emp update $body');
     SettingsUpdate(body).then((value) {
       var response = jsonDecode(value);
-      print('emp edited value $response');
       if(response['status'] == 200){
         Navigator.pop(context);
         nameHolder.text = '';
@@ -259,8 +273,6 @@ class EditSettingsState extends State<EditSettings>{
         Fluttertoast.showToast(
             msg: "Profile Updated",gravity: ToastGravity.CENTER,
             toastLength: Toast.LENGTH_SHORT);
-        //  Navigator.pop(context);
-
       }
       if(response['status'] == 422){
         Fluttertoast.showToast(
@@ -273,8 +285,6 @@ class EditSettingsState extends State<EditSettings>{
     });
   }
 
-
-
   Future<String> SettingsUpdate(body) async {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.putUrl(Uri.parse(API_URL+'Athentication/profile'));
@@ -285,7 +295,6 @@ class EditSettingsState extends State<EditSettings>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print("Replay :"+reply);
       return reply;
     }
   }

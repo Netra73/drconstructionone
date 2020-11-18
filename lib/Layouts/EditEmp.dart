@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:drconstructions/Functions/Config.dart';
 import 'package:drconstructions/Styles/textstyle.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class EditEmp extends StatefulWidget{
   String cid,cname,cmobile,cmail,caddress;
-
   EditEmp(this.cid, this.cname, this.cmobile, this.cmail, this.caddress,);
 
   @override
@@ -22,7 +20,6 @@ class EditEmpState extends State<EditEmp>{
   //constructor
   String cid,cname,cmobile,cmail,caddress,pass1,pass2;
   EditEmpState(this.cid, this.cname, this.cmobile, this.cmail, this.caddress);
-
 
   final _loginForm = GlobalKey<FormState>();
   final _passForm = GlobalKey<FormState>();
@@ -58,8 +55,6 @@ class EditEmpState extends State<EditEmp>{
       body: SingleChildScrollView(
         child: Container(
            color: mainStyle.bgColor,
-         // height: MediaQuery.of(context).size.height,
-          // margin: const EdgeInsets.fromLTRB(10, 15, 10, 20),
            child: Wrap(
              children: [Column(
                children: [
@@ -101,7 +96,7 @@ class EditEmpState extends State<EditEmp>{
                                hintText: 'Mobile Number',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,keyboardType: TextInputType.number,
                              validator: (value){
                                if(value == null || value.isEmpty || value.length != 10) {
-                                 return 'Mobile Number is required';
+                                 return 'Valid Mobile Number is required';
                                }
                              },
                              onSaved: (value){
@@ -119,7 +114,7 @@ class EditEmpState extends State<EditEmp>{
                                hintText: 'Mail Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                              validator: (value){
                                if(value == null || value.isEmpty) {
-                                 return 'Mail Id is required';
+                                 return emailRequired(value, "Valid Mail Id is required");
                                }
                              },
                              onSaved: (value){
@@ -254,6 +249,23 @@ class EditEmpState extends State<EditEmp>{
     );
   }
 
+  String validateEmail(String value,String error) {
+    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return error;
+    else
+      return null;
+  }
+
+  String emailRequired(String value,String error) {
+    if (value == null || value.isEmpty) {
+      return error;
+    } else {
+      return validateEmail(value,error);
+    }
+  }
+
   void submitAdd(){
     var body = {
       'id' : cid,
@@ -263,7 +275,6 @@ class EditEmpState extends State<EditEmp>{
       'email': EMail,
       'address': EAddress,
     };
-    print('Emp update $body');
     EmpUpdate(body).then((value) {
       var response = jsonDecode(value);
       print('emp edited value $response');
@@ -276,7 +287,6 @@ class EditEmpState extends State<EditEmp>{
         Fluttertoast.showToast(
             msg: "Employee Data Updated",gravity: ToastGravity.CENTER,
             toastLength: Toast.LENGTH_SHORT);
-      //  Navigator.pop(context);
 
       }
       if(response['status'] == 422){
@@ -330,7 +340,6 @@ class EditEmpState extends State<EditEmp>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-       print("Replay :"+reply);
        return reply;
     }
   }
@@ -345,7 +354,6 @@ class EditEmpState extends State<EditEmp>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print("Replay :"+reply);
       return reply;
     }
   }

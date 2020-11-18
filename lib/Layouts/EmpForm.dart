@@ -92,9 +92,7 @@ class EmpFormState extends State<EmpForm>{
                         ),),
                           hintText: 'Mail Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                         validator: (value){
-                          if(value == null || value.isEmpty) {
-                            return 'Mail Id is required';
-                          }
+                          return emailRequired(value, "Valid Mail Id is required");
                         },
                         onSaved: (value){
                            EMail = value;
@@ -162,6 +160,25 @@ class EmpFormState extends State<EmpForm>{
     );
   }
 
+
+  String validateEmail(String value,String error) {
+    Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return error;
+    else
+      return null;
+  }
+
+  String emailRequired(String value,String error) {
+    if (value == null || value.isEmpty) {
+      return error;
+    } else {
+      return validateEmail(value,error);
+    }
+  }
+
+
   void submitAdd(){
     var body = {
       'name' : EName,
@@ -172,7 +189,6 @@ class EmpFormState extends State<EmpForm>{
     };
     AddEmp(body).then((value) {
       var response = jsonDecode(value);
-      print('emp value $response');
       if(response['status'] == 200){
         nameHolder.text = '';
         mobHolder.text = '';

@@ -30,10 +30,6 @@ class OrderOfEmpState extends State<OrderOfEmp>{
     Colors.green,
   ];
 
-  @override
-  void initState() {
-    // getorders(eid);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +57,6 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                       if(response['status']==200){
                         recentList.clear();
                         var data = response['data'];
-                        print('employee details get $response');
                         for(var details in data){
                           if(details['product']!=null){
                             String id = details['id'];
@@ -198,7 +193,7 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                     }
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Loading',style: mainStyle.text18),
+                      child: Text('Loading..',style: mainStyle.text18),
                     );
                   }
                   ,),
@@ -212,7 +207,6 @@ class OrderOfEmpState extends State<OrderOfEmp>{
 }
 
 Future<String> getorders(String empid,String type) async {
-  print('getOredrs of empIddddd $empid');
   HttpClient httpClient = new HttpClient();
   HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order/?type='+type));
   request.headers.set('Content-type', 'application/json');
@@ -221,7 +215,6 @@ Future<String> getorders(String empid,String type) async {
   httpClient.close();
   if(response.statusCode==200) {
     String reply = await response.transform(utf8.decoder).join();
-    print('getOredrs of emp  $reply');
     return reply;
   }
 }

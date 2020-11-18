@@ -23,7 +23,6 @@ class TargerListClassState extends State<TargerListClass>
   String eid,ename;
   TargerListClassState(this.eid,this.ename);
 
-
   @override
   Widget build(BuildContext context) {
     List<TargetList>targetList = [];
@@ -78,7 +77,6 @@ class TargerListClassState extends State<TargerListClass>
                   if(response['status']==200){
                     targetList.clear();
                     var data = response['data'];
-                    print('targetlist $data');
                         String totalTarget = data['totalTraget'].toString();
                         String totalAchived = data['totalAchived'].toString();
 
@@ -103,9 +101,7 @@ class TargerListClassState extends State<TargerListClass>
                               target2 = target;
                             }
                        targetList.add(TargetList(tid,target2,achived2,year,month));
-
                       }
-                        print('length  ${targetList.length}');
                           }
                     return Container(
                       child: Column(
@@ -131,7 +127,6 @@ class TargerListClassState extends State<TargerListClass>
                                     itemCount: targetList.length,
                                     itemBuilder: (context,i){
                                       return Row(
-                                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                             width:120,
@@ -166,15 +161,12 @@ class TargerListClassState extends State<TargerListClass>
          ],
        ),
      ),
-
-
     );
   }
 
 }
 
 Future<String> getorders(empid) async {
-  print('empididdddddddddddd $empid');
   HttpClient httpClient = new HttpClient();
   HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'target/'+empid+'/'));
   request.headers.set('Content-type', 'application/json');
@@ -182,7 +174,6 @@ Future<String> getorders(empid) async {
   httpClient.close();
   if(response.statusCode==200) {
     String reply = await response.transform(utf8.decoder).join();
-    print('Target print $reply');
     return reply;
   }
 }

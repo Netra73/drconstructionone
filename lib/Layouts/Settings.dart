@@ -49,7 +49,6 @@ class Settingsstate extends State<Settings>{
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15.0)),
                             child: Column(
-                              //crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(15.0),
@@ -191,7 +190,6 @@ Future<String> getSettings() async {
   httpClient.close();
   if(response.statusCode==200) {
     String reply = await response.transform(utf8.decoder).join();
-    print('placed print $reply');
     return reply;
   }
 }

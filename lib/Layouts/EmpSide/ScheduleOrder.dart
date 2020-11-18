@@ -35,13 +35,6 @@ class ScheduleState extends State<ScheduleOrder>{
 
   @override
   void initState() {
-
-//    getData("USERData").then((value) {
-//      var response = jsonDecode(value);
-//      print('saved data empppppppp $response');
-//      var data = response['userData'];
-//      empid = data['id'];
-//    });
     if(status=="1"){
       strbtn = "Schedule";
     }
@@ -79,30 +72,6 @@ class ScheduleState extends State<ScheduleOrder>{
                        child: Text("Order Id : $oId",style: TextStyle(fontSize: 16.0),),
                      ),
                      SizedBox(height: 15),
-//                     GestureDetector(
-//                       onTap: (){
-//                         _selectDate(context);
-//                       },
-//                       child: AbsorbPointer(
-//                         child: TextFormField(controller: _date,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                           const Radius.circular(0.0),
-//                         ),
-//                           borderSide: new BorderSide(
-//                             color: Colors.black,
-//                             width: 1.0,
-//                           ),),
-//                             hintText: 'Select Date',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,keyboardType: TextInputType.datetime,
-//                           validator: (value){
-//                             if(value == null || value.isEmpty) {
-//                               return 'Date is required';
-//                             }
-//                           },
-//                           onSaved: (value){
-//                             strDate = value;
-//                           }
-//                           ,),
-//                       ),
-//                     ),
                      SizedBox(height: 10),
                      DateTimeField(
                        decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
@@ -141,41 +110,7 @@ class ScheduleState extends State<ScheduleOrder>{
 
                      ),
                     SizedBox(height: 10),
-//                    if(status=="1") TextFormField(controller: driveHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                       const Radius.circular(0.0),
-//                     ),
-//                       borderSide: new BorderSide(
-//                         color: Colors.black,
-//                         width: 1.0,
-//                       ),),
-//                         hintText: 'Driver Name',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
-//                       validator: (value){
-//                         if(value == null || value.isEmpty) {
-//                           return 'Driver Name is required';
-//                         }
-//                       },
-//                       onSaved: (value){
-//                         strDrive = value;
-//                       }
-//                       ,),
                      SizedBox(height: 10),
-//                     if(status=="1")TextFormField(controller: vehicleHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                       const Radius.circular(0.0),
-//                     ),
-//                       borderSide: new BorderSide(
-//                         color: Colors.black,
-//                         width: 1.0,
-//                       ),),
-//                         hintText: 'Vehicle Number',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.characters,
-//                       validator: (value){
-//                         if(value == null || value.isEmpty) {
-//                           return 'Vehicle Number is required';
-//                         }
-//                       },
-//                       onSaved: (value){
-//                         strVehicle = value;
-//                       }
-//                       ,),
                      SizedBox(height: 10.0,),
                      Padding(
                        padding: const EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -214,8 +149,32 @@ class ScheduleState extends State<ScheduleOrder>{
      ),
    );;
   }
+  _showLoading() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Container(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  child: CircularProgressIndicator(),
+                  height: 40.0,
+                  width: 40.0,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   void scheduleOrder(){
+    _showLoading();
      String st;
      String drive;
      String vehicle;
@@ -237,8 +196,8 @@ class ScheduleState extends State<ScheduleOrder>{
       'driverName' : drive,
       'vehicle' : vehicle,
     };
-    print(' String orId $body');
     scheduleMethod(body).then((value) {
+      Navigator.pop(context);
         var response = jsonDecode(value);
         if(response['status']==200){
           var data = response['data'];
@@ -251,51 +210,6 @@ class ScheduleState extends State<ScheduleOrder>{
     });
   }
 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(1901, 1),
-        lastDate: DateTime(2100));
-    if (picked != null && picked != selectedDate)
-      setState(() {
-        selectedDate = picked;
-      //  dateFormate = DateFormat("yyyy-MM-dd").format(picked);
-        String  dateFormate2 = DateFormat("dd-MM-yyyy").format(picked);
-        _date.value = TextEditingValue(text: dateFormate2.toString());
-      });
-  }
-
-//  class BasicDateTimeField extends StatelessWidget {
-//  final format = DateFormat("yyyy-MM-dd HH:mm");
-//  @override
-//  Widget build(BuildContext context) {
-//    return Column(children: <Widget>[
-//      Text('Basic date & time field (${format.pattern})'),
-//      DateTimeField(
-//        format: format,
-//        onShowPicker: (context, currentValue) async {
-//          final date = await showDatePicker(
-//              context: context,
-//              firstDate: DateTime(1900),
-//              initialDate: currentValue ?? DateTime.now(),
-//              lastDate: DateTime(2100));
-//          if (date != null) {
-//            final time = await showTimePicker(
-//              context: context,
-//              initialTime:
-//              TimeOfDay.fromDateTime(currentValue ?? DateTime.now()),
-//            );
-//            return DateTimeField.combine(date, time);
-//          } else {
-//            return currentValue;
-//          }
-//        },
-//      ),
-//    ]);
-//  }
-//}
-
   Future<String> scheduleMethod(body) async {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.putUrl(Uri.parse(API_URL+'order'));
@@ -306,7 +220,6 @@ class ScheduleState extends State<ScheduleOrder>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print("Replay :"+reply);
       return reply;
     }
   }

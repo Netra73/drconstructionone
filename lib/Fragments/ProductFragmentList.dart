@@ -110,7 +110,7 @@ class ThirdFragmentState extends State<ThirdFragment> {
                 itemBuilder: (context,i){
                return GestureDetector(
                  onTap: (){
-                   // Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsPage()));
+
                  },
                  child: Card(
                    elevation: 2,
@@ -178,7 +178,7 @@ class ThirdFragmentState extends State<ThirdFragment> {
           }
             return Padding(
           padding: const EdgeInsets.all(8.0),
-              child: Text('Loading',style: mainStyle.text18),
+              child: Text('Loading..',style: mainStyle.text18),
       );
       },
       ),
@@ -423,7 +423,6 @@ class ThirdFragmentState extends State<ThirdFragment> {
                                     onPressed: (){
                                       if(_loginForm.currentState.validate()){
                                         _loginForm.currentState.save();
-                                        print('edited product $name $rate');
                                         updateProduct(id,pname,name, rate, context);
                                       }
                                     },
@@ -497,7 +496,6 @@ class ThirdFragmentState extends State<ThirdFragment> {
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-     // print("Replay :"+reply);
       return reply;
     }
 
@@ -610,7 +608,6 @@ class ThirdFragmentState extends State<ThirdFragment> {
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      // print("Replay :"+reply);
       return reply;
     }
   }

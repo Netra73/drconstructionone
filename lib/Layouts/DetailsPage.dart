@@ -150,13 +150,19 @@ class DetailsPageState extends State<DetailsPage>{
                          String mode = det2['mode'];
                          String paymentId = det2['paymentId'];
                          String date = det2['date'];
+                         String paymentIdd;
                          if(amount != null && amount != "0"){
                            pay = true;
                            print('payyy $pay');
                          }else{
                          //  pay= false;
                          }
-                         payList.add(paymentList(eid,amount,mode,paymentId,date,orderId));
+                         if(paymentId == "" || paymentId == null || paymentId.isEmpty){
+                            paymentIdd = "NA";
+                         }else{
+                           paymentIdd = paymentId;
+                         }
+                         payList.add(paymentList(eid,amount,mode,paymentIdd,date,orderId));
                        }
 
                     }
@@ -180,20 +186,6 @@ class DetailsPageState extends State<DetailsPage>{
                                       children: [
                                         Text('Order ID : ${data['id']}',style: mainStyle.text16),
                                         Text('Status : $strStatus',style: mainStyle.text14Bold,),
-//                                        Container(
-//                                          alignment: Alignment.center,
-//                                          child: RaisedButton(
-//                                            shape: RoundedRectangleBorder(
-//                                                borderRadius: BorderRadius.circular(10.0),
-//                                                side: BorderSide(color: Colors.red)
-//                                            ),
-//                                            onPressed: (){
-//                                              _launchURL(data['id']);
-//                                            },
-//                                            child: Text('Invoice',style: mainStyle.text16Rate,),
-//                                          ),
-//                                        ),
-                                        //Icon(Icons.cancel,size: 20,)),
                                       ],
                                     ),
                                     SizedBox(height: 5),
@@ -221,7 +213,6 @@ class DetailsPageState extends State<DetailsPage>{
                                             child: Text('Invoice',style: mainStyle.text16Rate,),
                                           ),
                                         ),
-//                                        Text('Status : $strStatus',style: mainStyle.text14Bold,),
                                       ],
                                     ),
 
@@ -327,41 +318,9 @@ class DetailsPageState extends State<DetailsPage>{
                                         child: Text(strbtn,style: mainStyle.text16White,),
                                       ),
                                     ),
-//                                    if(paymentStatus) Container(
-//                                      alignment: Alignment.center,
-//                                      child: RaisedButton(
-//                                        color: Colors.black,
-//                                        onPressed: (){
-//                                          _successDialog(data['id']);
-//                                          setState(() {
-//
-//                                          });
-//                                        },
-//                                        child: Text("Make Payment",style: mainStyle.text16White,),
-//                                      ),
-//                                    )
                                   ],
                                 ),
                               ),
-//                            Padding(
-//                              padding: const EdgeInsets.all(8.0),
-//                              child: Container(
-//                                decoration: BoxDecoration(
-//                                    color: _colors[colorchoose],
-//                                    borderRadius: BorderRadius.only(
-//                                        topRight: Radius.circular(15.0),
-//                                        bottomRight: Radius.circular(15.0),
-//                                        topLeft: Radius.circular(15.0),
-//                                        bottomLeft: Radius.circular(15.0))
-//                                ),
-//                                width: double.infinity,
-//                                child:Padding(
-//                                  padding: const EdgeInsets.all(8.0),
-//                                  child: Container(
-//                                      child: Text(strStatus,style: mainStyle.text14,textAlign: TextAlign.center,)),
-//                                ),
-//                              ),
-//                            ),
                             ],
                           ),
                         ),
@@ -477,11 +436,10 @@ class DetailsPageState extends State<DetailsPage>{
                         ),
                       ],
                     );
-
                   }
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('loading',style: TextStyle(fontSize: 20),),
+                    child: Text('loading..',style: TextStyle(fontSize: 20),),
                   );
                 }
               )
@@ -489,14 +447,6 @@ class DetailsPageState extends State<DetailsPage>{
           ),
         ),
      );
-  }
-
- void _makePayment(String payid) {
-    String radioPay,Epayid,EpaidAmt,strDate;
-    var payidHolder = TextEditingController();
-    var paidAmtHolder = TextEditingController();
-
-    _successDialog(payid);
   }
 
 
@@ -595,11 +545,6 @@ class DetailsPageState extends State<DetailsPage>{
                                                 width: 1.0,
                                               ),),
                                                 hintText: 'Transaction Ref. No.',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
-//                                              validator: (value){
-//                                                if(value == null || value.isEmpty) {
-//                                                  return 'Payment Id is required';
-//                                                }
-//                                              },
                                               onSaved: (value){
                                                 Epayid = value;
                                               }
@@ -667,7 +612,6 @@ class DetailsPageState extends State<DetailsPage>{
                                                       'paymentId' : Epayid,
                                                       'paymentDate' : dateFormate,
                                                     };
-                                                    print('paymentdddd body $body');
                                                     paymentMethod(body).then((value) {
                                                           var response = jsonDecode(value);
                                                           print('paymentdddd $response');
@@ -733,8 +677,6 @@ class DetailsPageState extends State<DetailsPage>{
 
       });
       if(value==null){
-//        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//            ProductList()), (Route<dynamic> route) => false);
       }
     });
   }
@@ -743,17 +685,15 @@ class DetailsPageState extends State<DetailsPage>{
 
 
   Future<String> getorders() async {
-   // print('empididdddddddddddd $empid');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order/'+Eid));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', 'e10adc3949ba59abbe56e057f20f883e');
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
+      print('changed1111111 $reply');
       return reply;
     }
   }
@@ -769,13 +709,7 @@ class DetailsPageState extends State<DetailsPage>{
       },
     ).then((value){
       setState(() {
-//        var jdata = jsonDecode(value);
-//        print('historyData $jdata');
 
-//        month =  jdata['month'].toString();
-//        mail   =  jdata['user'].toString();
-//        strmaterial   =  jdata['material'].toString();
-//        stremp   =  jdata['employee'].toString();
       });
     });
   }
@@ -805,77 +739,10 @@ class DetailsPageState extends State<DetailsPage>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }
 
-
-  _DeleteDialog(String id,context) {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return Center(
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  //  height: 270.0,
-                  padding: EdgeInsets.all(10.0),
-                  child: Card(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Text('Are you sure, you want to cancel this order??',style: mainStyle.text18,textAlign: TextAlign.center,),
-                          ),
-                          // SizedBox(height: 15),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                RaisedButton(
-                                  onPressed: (){
-                                    deleteOrder(id);
-                                  },
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                  color: Colors.red,
-                                  child: Text('YES',style: TextStyle(fontSize: 16.0,color: Colors.white),),
-                                ),
-                                RaisedButton(
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                                  color: Colors.grey,
-                                  child: Text('No',style: TextStyle(fontSize: 16.0,color: Colors.white),),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(height: 5),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
-      },
-    ).then((value){
-
-    });
-  }
 
   void deleteOrder(String id){
     //_showLoading();
@@ -904,39 +771,20 @@ class DetailsPageState extends State<DetailsPage>{
 
 
   Future<String> deleteP(String type) async {
-    // print('empididdddddddddddd $emp');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.deleteUrl(Uri.parse(API_URL+'order/'+type));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', 'e10adc3949ba59abbe56e057f20f883e');
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }
 
 }
 
-class paymentClass extends StatefulWidget{
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-   return paymentclassState();
-  }
-}
-
-class paymentclassState extends State<paymentClass>{
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-
-}
 
 _launchURL(id) async {
   var url = 'https://www.eneblur.com.au/drmix/invoice.php?oid='+id;

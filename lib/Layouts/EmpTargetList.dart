@@ -104,7 +104,6 @@ class EmpTargerListClassState extends State<EmpTargerListClass>
                                     itemCount: targetList.length,
                                     itemBuilder: (context,i){
                                       return Row(
-                                       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Container(
                                               width:120,
@@ -122,12 +121,6 @@ class EmpTargerListClassState extends State<EmpTargerListClass>
                         ],
                       ),
                     );
-//          Container(
-//          child:  Padding(
-//          padding: const EdgeInsets.all(15.0),
-//          child: Text('No Payment',style: TextStyle(color:mainStyle.textColorLight ),),
-//          ),
-//          );
                   }
                   if(response['status']==422){
                     return Padding(
@@ -138,27 +131,22 @@ class EmpTargerListClassState extends State<EmpTargerListClass>
                 }
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('Loading',style: mainStyle.text18),
+                  child: Text('Loading..',style: mainStyle.text18),
                 );
               },
             ),
           ],
         ),
       ),
-
-
     );
   }
 
 }
 
 Future<String> getorders(empid) async {
-  print('empididdddddddddddd $empid');
   HttpClient httpClient = new HttpClient();
   HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'target/'+empid+'/'));
   request.headers.set('Content-type', 'application/json');
-  // request.headers.set('Authorization', empid);
-  // request.add(utf8.encode(json.encode(body)));
   HttpClientResponse response = await request.close();
   httpClient.close();
   if(response.statusCode==200) {

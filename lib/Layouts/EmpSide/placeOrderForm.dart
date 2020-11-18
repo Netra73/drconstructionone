@@ -83,12 +83,12 @@ class PlaceOrderState extends State<PlaceOrder>{
         setState(() {
           var response = jsonDecode(value);
           var data = response['data'];
-          print('place order product $response data $data');
+
           for(var detail in data){
             mapProduct.add(detail['name']);
             Map<String, String> idMap = {'rate': detail['rate'], 'id': detail['id'],};
             campData[detail['name']] = idMap;
-            print('added data ${campData[detail['name']] = idMap}');
+
           }
           loadList = true;
         });
@@ -97,14 +97,13 @@ class PlaceOrderState extends State<PlaceOrder>{
 
       getSettings().then((value) {
           var response = jsonDecode(value);
-          print('settings response $response');
           var data = response['data'];
           var settings = data['setting'];
           freeLimit = settings['freeLimit'];
           extraCharge = settings['extraCharge'];
           gstRate = settings['gstRate'];
           pumpCharge = settings['pumpCharge'];
-          print('printGst $pumpCharge');
+
           setData("Settings", jsonEncode(data)).then((value) {
 
          });
@@ -112,11 +111,34 @@ class PlaceOrderState extends State<PlaceOrder>{
 
       getData("USERData").then((value) {
          var response = jsonDecode(value);
-         print('saved emp data $response');
          var data = response['userData'];
           empid = data['id'];
       });
     });
+  }
+
+  _showLoading() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Container(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  child: CircularProgressIndicator(),
+                  height: 40.0,
+                  width: 40.0,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -131,7 +153,6 @@ class PlaceOrderState extends State<PlaceOrder>{
       body: SingleChildScrollView(
         child: loadList ? Container(
           color: mainStyle.bgColor,
-        //  height: MediaQuery.of(context).size.height,
           child: Wrap(
               children:[
                 Form(
@@ -160,8 +181,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                     Container(
                                       width: 150.0,
                                       child: DropdownButtonFormField<String>(
-                                       // isExpanded: false,
-                                      //  alignedDropdown: true,
                                         decoration: InputDecoration(contentPadding: EdgeInsets.all(0),
                                             border: OutlineInputBorder(
                                               borderRadius: const BorderRadius.all(
@@ -186,7 +205,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             fontSize: 16.0, color: Colors.black
                                         ),
                                         onChanged: (newValue) {
-                                            selectedProduct = newValue;
+                                             selectedProduct = newValue;
                                             _loadTaluk(newValue);
                                              quantityHolder.text = "";
                                              totalAmtHolder.text = "0";
@@ -228,14 +247,13 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             }
                                             //original
                                             double b = double.parse(value);
-                                            print('quantDistance holder $b');
                                             int c = int.parse(selectedrate);
-                                            print('quantDistance holder rate $c');
+
                                             double a = b*c;
-                                            print('quantDistance holder totalval $a');
+
                                             int cg = a.round();
                                             totalamt = cg.toString();
-                                            print('quantDistance holder totalvalextra $totalamt');
+
                                             int etr = 0;
 
 
@@ -248,7 +266,7 @@ class PlaceOrderState extends State<PlaceOrder>{
 
                                               if(a2>0){
                                                 etr = int.parse(extraCharge) * a2;
-                                                print('receivedValue Dist3 $etr');
+
                                               }else{
                                                 etr = 0;
                                               }
@@ -264,7 +282,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int Gst = gstAmt2.round();
                                               GstforCard = Gst;
                                               amt = amt+Gst;
-                                              print('receivedValue Dist and gst $gstAmt2');
+
                                             }else{
                                               amt = amt+0;
                                               GstforCard = 0;
@@ -274,7 +292,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int p1 = int.parse(pumpCharge);
                                               pumpforCard = p1;
                                               amt = amt+p1;
-                                               print('receivedValue Dist and gst $p1');
+
                                             }else{
                                               amt = amt+0;
                                               pumpforCard = 0;
@@ -330,13 +348,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                          }else{
                                            getDistance();
                                          }
-
-
-//                                     if(addressHolder.text == "" || addressHolder.text == null){
-//                                      // return "address is reqired";
-//                                     }else{
-//                                       return getDistance();
-//                                     }
                                        },
                                        child: Container(
                                            child: Image.asset('assets/images/calculater.png',width: 40,height: 40,)),
@@ -363,18 +374,18 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             return 'Distance is required';
                                           }
                                         },onChanged: (value){
-                                          print('receivedValue Dist $value');
+
                                           int d1 = int.parse(value);
-                                          print('receivedValue Dist2 $d1');
+
 
                                           int z1 = int.parse(freeLimit);
                                           int a2 = (d1 - z1)as int;
-                                          print('receivedValue Dist3 $a2');
+
 
                                           int etr = 0;
                                           if(a2>0){
                                             etr = int.parse(extraCharge) * a2;
-                                            print('receivedValue Dist3 $etr');
+
                                           }else{
                                             etr = 0;
                                           }
@@ -389,7 +400,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             int Gst = gstAmt2.round();
                                             GstforCard = Gst;
                                             amt = amt+Gst;
-                                            print('receivedValue Dist and gst $gstAmt2');
+
                                           }else{
                                             amt = amt+0;
                                             GstforCard = 0;
@@ -399,7 +410,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             int p1 = int.parse(pumpCharge);
                                             pumpforCard = p1;
                                             amt = amt+p1;
-                                            // print('receivedValue Dist and gst $gstAmt2');
+
                                           }else{
                                             amt = amt+0;
                                             pumpforCard = 0;
@@ -409,7 +420,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                           totalAmtCardd = amt;
                                           totalAmtHolder.text = dtotalamt;
                                           totalAmtCard = int.parse(dtotalamt);
-                                          print('total amt card $totalAmtCard');
+
 
                                           setState(() {
                                           });
@@ -434,7 +445,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             int etr = 0;
 
                                             String ad = distanceHolder.text;
-                                            print('quantDistance holder $ad');
+
                                             if(ad != ""){
                                               int d1 = int.parse(ad);
                                               int z1 = int.parse(freeLimit);
@@ -442,7 +453,7 @@ class PlaceOrderState extends State<PlaceOrder>{
 
                                               if(a2>0){
                                                 etr = int.parse(extraCharge) * a2;
-                                                print('receivedValue Dist3 $etr');
+
                                               }else{
                                                 etr = 0;
                                               }
@@ -458,7 +469,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int Gst = gstAmt2.round();
                                               GstforCard = Gst;
                                               amt = amt+Gst;
-                                              print('receivedValue Dist and gst $gstAmt2');
+
                                             }else{
                                               amt = amt+0;
                                               GstforCard = 0;
@@ -468,7 +479,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int p1 = int.parse(pumpCharge);
                                               pumpforCard = p1;
                                               amt = amt+p1;
-                                              // print('receivedValue Dist and gst $gstAmt2');
+
                                             }else{
                                               amt = amt+0;
                                               pumpforCard = 0;
@@ -500,7 +511,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                             int etr = 0;
 
                                             String ad = distanceHolder.text;
-                                            print('quantDistance holder $ad');
+
                                             if(ad != ""){
                                               int d1 = int.parse(ad);
                                               int z1 = int.parse(freeLimit);
@@ -508,7 +519,6 @@ class PlaceOrderState extends State<PlaceOrder>{
 
                                               if(a2>0){
                                                 etr = int.parse(extraCharge) * a2;
-                                                print('receivedValue Dist3 $etr');
                                               }else{
                                                 etr = 0;
                                               }
@@ -524,7 +534,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int Gst = gstAmt2.round();
                                               GstforCard = Gst;
                                               amt = amt+Gst;
-                                              print('receivedValue Dist and gst $gstAmt2');
                                             }else{
                                               amt = amt+0;
                                               GstforCard = 0;
@@ -534,7 +543,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                               int p1 = int.parse(pumpCharge);
                                               pumpforCard = p1;
                                               amt = amt+p1;
-                                             // print('receivedValue Dist and gst $gstAmt2');
                                             }else{
                                               amt = amt+0;
                                               pumpforCard = 0;
@@ -552,11 +560,8 @@ class PlaceOrderState extends State<PlaceOrder>{
                                         ),
                                       ),
                                     ),
-
                                   ],
                                 ),
-
-
                               ],
                             ),
                           ),
@@ -726,20 +731,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                         GstNo = value;
                                       }
                                       ,),
-//                                Container(
-//                                  height: 30,
-//                                  width: 150,
-//                                  child: RaisedButton(
-//                                    onPressed: (){
-//                                      if(_loginForm2.currentState.validate()){
-//                                        _loginForm2.currentState.save();
-//                                         getDistance();
-//                                      }
-//                                    },
-//                                    color: Colors.grey,
-//                                    child: Text('Get Distance',style: TextStyle(fontSize:18,color: Colors.white),),
-//                                  ),
-//                                ),
                                   ],
                                 ),
                               ),
@@ -827,45 +818,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                         Image.asset('assets/images/phonepay.png',width: 30,height: 30,),
                                       ],
                                     ),
-//                              RadioListTile(
-//                                dense: true,
-//                                groupValue: radioPay,
-//                                title: Row(children: [Image.asset('assets/images/cash.png',width: 30,height: 30,)],),
-//                                value: 'Cash',
-//                                onChanged: (val){
-//                                  setState(() {
-//                                    radioPay = val;
-//                                  });
-//                                },
-//                              ),
-//                              Flexible(
-//                                fit: FlexFit.loose,
-//                                child: RadioListTile(
-//                                  dense: true,
-//                                  groupValue: radioPay,
-//                                  title: Row(children: [Image.asset('assets/images/gpay.png',width: 30,height: 30,)],),
-//                                  value: 'Google Pay',
-//                                  onChanged: (val){
-//                                    setState(() {
-//                                      radioPay = val;
-//                                    });
-//                                  },
-//                                ),
-//                              ),
-//                              Flexible(
-//                                fit: FlexFit.loose,
-//                                child: RadioListTile(
-//                                  dense: true,
-//                                  groupValue: radioPay,
-//                                  title: Row(children: [Image.asset('assets/images/phonepay.png',width: 30,height: 30,)],),
-//                                  value: 'Phone Pay',
-//                                  onChanged: (val){
-//                                    setState(() {
-//                                      radioPay = val;
-//                                    });
-//                                  },
-//                                ),
-//                              ),
                                   ],
                                 ),
                                 SizedBox(height: 10),
@@ -877,11 +829,6 @@ class PlaceOrderState extends State<PlaceOrder>{
                                     width: 1.0,
                                   ),),
                                     hintText: 'Transaction Ref. No.',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
-//                              validator: (value){
-//                                if(value == null || value.isEmpty) {
-//                                  return 'Payment Id is required';
-//                                }
-//                              },
                                   onSaved: (value){
                                     Epayid = value;
                                   }
@@ -986,12 +933,12 @@ class PlaceOrderState extends State<PlaceOrder>{
   }
 
   void submitOrder(){
+    _showLoading();
     int gst = int.parse(gstRate);
     int subTotal = totalAfDiCh;
     int mul = (subTotal*gst);
     double tt =(mul/100);
     int totalgst = tt.round();
-    print('totalGst $totalgst');
 
     int Odist = int.parse(Edist);
     int Ldist = int.parse(freeLimit);
@@ -1003,7 +950,6 @@ class PlaceOrderState extends State<PlaceOrder>{
       DExtra = "0";
     }
 
-    print('totalDistEtra $DExtra');
 
     if(!checkedValue){
       Epayid = "0";
@@ -1028,16 +974,13 @@ class PlaceOrderState extends State<PlaceOrder>{
     int d3 = (d1 * d2) as int ;
     String dtstRate = d3.toString();
 
-    print('totaldtstRate $dtstRate');
 
     //dtTotal(d3)+
     int OT = (d3+totalgst+ subTotal) as int;
 
-    print('gst OT $OT $subTotal');
 
     EAmt = priceHolder.text;
     ETotal = totalamt;
-   // String dateFormate = DateFormat("dd-MM-yyyy").format(_date);
 
     var body = {
       'employeeId' : empid,
@@ -1069,8 +1012,9 @@ class PlaceOrderState extends State<PlaceOrder>{
       'sms':strSms,
     };
 
-    print('place order body $body');
+
     placeOrder(body).then((value) {
+      Navigator.pop(context);
       var response = jsonDecode(value);
       print('emp value $response');
       if(response['status'] == 200){
@@ -1090,10 +1034,6 @@ class PlaceOrderState extends State<PlaceOrder>{
         String id = data['id'];
         String status = data['status'];
         _successDialog(id,status);
-//        Fluttertoast.showToast(
-//            msg: "Order Placed",gravity: ToastGravity.CENTER,
-//            toastLength: Toast.LENGTH_SHORT);
-//        Navigator.pop(context);
 
       }
       setState(() {
@@ -1120,7 +1060,6 @@ class PlaceOrderState extends State<PlaceOrder>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }
@@ -1139,16 +1078,16 @@ class PlaceOrderState extends State<PlaceOrder>{
             toastLength: Toast.LENGTH_LONG);
 
         int d1 = int.parse(str);
-        print('receivedValue Dist after calculation $d1');
+
 
         int z1 = int.parse(freeLimit);
         int a2 = (d1 - z1)as int;
-        print('receivedValue Dist3 $a2');
+
 
         int etr = 0;
         if(a2>0){
           etr = int.parse(extraCharge) * a2;
-          print('receivedValue Dist3 $etr');
+
         }else{
           etr = 0;
         }
@@ -1163,7 +1102,6 @@ class PlaceOrderState extends State<PlaceOrder>{
           int Gst = gstAmt2.round();
           GstforCard = Gst;
           amt = amt+Gst;
-          print('receivedValue Dist and gst $gstAmt2');
         }else{
           amt = amt+0;
           GstforCard = 0;
@@ -1173,7 +1111,6 @@ class PlaceOrderState extends State<PlaceOrder>{
           int p1 = int.parse(pumpCharge);
           pumpforCard = p1;
           amt = amt+p1;
-          // print('receivedValue Dist and gst $gstAmt2');
         }else{
           amt = amt+0;
           pumpforCard = 0;
@@ -1183,7 +1120,6 @@ class PlaceOrderState extends State<PlaceOrder>{
         totalAmtCardd = amt;
         totalAmtHolder.text = dtotalamt;
         totalAmtCard = int.parse(dtotalamt);
-        print('total amt card $totalAmtCard');
 
         setState(() {
         });
@@ -1321,8 +1257,6 @@ class PlaceOrderState extends State<PlaceOrder>{
       },
     ).then((value){
       if(value==null){
-//        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//            ProductList()), (Route<dynamic> route) => false);
       }
     });
   }
@@ -1415,30 +1349,6 @@ class ScheduleState2 extends State<ScheduleOrder2>{
                         child: Text("Order Id : $oId",style: TextStyle(fontSize: 16.0),),
                       ),
                       SizedBox(height: 15),
-//                      GestureDetector(
-//                        onTap: (){
-//                          _selectDate(context);
-//                        },
-//                        child: AbsorbPointer(
-//                          child: TextFormField(controller: _date,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                            const Radius.circular(0.0),
-//                          ),
-//                            borderSide: new BorderSide(
-//                              color: Colors.black,
-//                              width: 1.0,
-//                            ),),
-//                              hintText: 'Select Date',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,keyboardType: TextInputType.datetime,
-//                            validator: (value){
-//                              if(value == null || value.isEmpty) {
-//                                return 'Date is required';
-//                              }
-//                            },
-//                            onSaved: (value){
-//                              strDate = value;
-//                            }
-//                            ,),
-//                        ),
-//                      ),
                       DateTimeField(
                         decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
                           const Radius.circular(0.0),
@@ -1475,41 +1385,6 @@ class ScheduleState2 extends State<ScheduleOrder2>{
                         },
 
                       ),
-//                        TextFormField(controller: driveHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                          const Radius.circular(0.0),
-//                        ),
-//                          borderSide: new BorderSide(
-//                            color: Colors.black,
-//                            width: 1.0,
-//                          ),),
-//                            hintText: 'Driver Name',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
-//                          validator: (value){
-//                            if(value == null || value.isEmpty) {
-//                              return 'Driver Name is required';
-//                            }
-//                          },
-//                          onSaved: (value){
-//                            strDrive = value;
-//                          }
-//                          ,),
-//                        SizedBox(height: 10),
-//                        TextFormField(controller: vehicleHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
-//                          const Radius.circular(0.0),
-//                        ),
-//                          borderSide: new BorderSide(
-//                            color: Colors.black,
-//                            width: 1.0,
-//                          ),),
-//                            hintText: 'Vehicle Number',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.characters,
-//                          validator: (value){
-//                            if(value == null || value.isEmpty) {
-//                              return 'Vehicle Number is required';
-//                            }
-//                          },
-//                          onSaved: (value){
-//                            strVehicle = value;
-//                          }
-//                          ,),
                       SizedBox(height: 15.0,),
                       Padding(
                         padding: const EdgeInsets.only(top: 8,left: 8,right: 8),
@@ -1551,7 +1426,32 @@ class ScheduleState2 extends State<ScheduleOrder2>{
     );;
   }
 
+  _showLoading() {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Container(
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  child: CircularProgressIndicator(),
+                  height: 40.0,
+                  width: 40.0,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   void scheduleOrder(){
+    _showLoading();
     String st;
 
     if(status == "1"){
@@ -1567,8 +1467,8 @@ class ScheduleState2 extends State<ScheduleOrder2>{
       'driverName' : "",
       'vehicle'    : "",
     };
-    print(' String orId $body');
     scheduleMethod(body).then((value) {
+      Navigator.pop(context);
       var response = jsonDecode(value);
       if(response['status']==200){
         var data = response['data'];
@@ -1607,7 +1507,6 @@ class ScheduleState2 extends State<ScheduleOrder2>{
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print("Replay :"+reply);
       return reply;
     }
   }

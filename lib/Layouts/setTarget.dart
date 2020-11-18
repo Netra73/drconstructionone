@@ -42,7 +42,6 @@ class setTargetState extends State<setTarget>{
           child: Wrap(
               children:[Container(
                 color: Colors.white,
-                // height: ,
                 margin: const EdgeInsets.fromLTRB(10, 15, 10, 20),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(8,12,8,12),
@@ -78,8 +77,6 @@ class setTargetState extends State<setTarget>{
                           onChanged: (newValue) {
                             setState(() {
                               selectedYear = newValue;
-                              //  totalAmt = a.toString();
-                              //   editedValue.text = totalAmt;
                             });
                           },
                           items: mapYear.map((quant) {
@@ -121,8 +118,6 @@ class setTargetState extends State<setTarget>{
                           onChanged: (newValue) {
                             setState(() {
                               selectedMonth = newValue;
-                              //  totalAmt = a.toString();
-                              //   editedValue.text = totalAmt;
                             });
                           },
                           items: mapMonth.map((quant) {
@@ -190,7 +185,6 @@ class setTargetState extends State<setTarget>{
       'month': selectedMonth,
       'target': strTarget,
     };
-    print('setTargetbody $body');
     addTarget(body).then((value) {
       var response = jsonDecode(value);
       print('emp value $response');

@@ -36,11 +36,8 @@ class OrderHistotyState extends State<OrderHistory> {
 
     getData("USERData").then((value) {
       var response = jsonDecode(value);
-      print('saved data empppppppp $response');
       var data = response['userData'];
       empid = data['id'];
-
-      print('idiniit $empid');
 
      });
 
@@ -62,104 +59,6 @@ class OrderHistotyState extends State<OrderHistory> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-//              Padding(
-//                padding: const EdgeInsets.fromLTRB(12,15,12,0),
-//                child: Text(formatted,style: mainStyle.text18,),
-//              ),
-//              Padding(
-//                padding: const EdgeInsets.all(10.0),
-//                child: Row(
-//                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                  children: [
-//                    Column(
-//                      children: [
-//                        Container(
-//                          width: 90,
-//                          height: 90,
-//                          decoration: BoxDecoration(
-//                            border: Border.all(width: 2,color: Colors.orangeAccent),
-//                            shape: BoxShape.circle,
-//                            // You can use like this way or like the below line
-//                            //borderRadius: new BorderRadius.circular(30.0),
-//                            color: Colors.white,
-//                          ),
-//                          child:Column(
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              Text('ABC',style: TextStyle(color: Colors.orangeAccent)),
-//                            ],
-//                          ),
-//
-//                        ),
-//                        SizedBox(height: 15),
-//                        Text('Target',style: mainStyle.text14)
-//                      ],
-//                    ),
-//                    Column(
-//                      children: [
-//                        Container(
-//                          width: 90,
-//                          height: 90,
-//                          decoration: BoxDecoration(
-//                            border: Border.all(width: 2,color: Colors.blue),
-//                            shape: BoxShape.circle,
-//                            // You can use like this way or like the below line
-//                            //borderRadius: new BorderRadius.circular(30.0),
-//                            color: Colors.white,
-//                          ),
-//                          child:Column(
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              Text('90',style: TextStyle(color: Colors.blue)),
-//                            ],
-//                          ),
-//                        ),
-//                        SizedBox(height: 15),
-//                        Text('Achieved',style: mainStyle.text14)
-//                      ],
-//                    ),
-//                    Column(
-//                      children: [
-//                        Container(
-//                          width: 90,
-//                          height: 90,
-//                          decoration: BoxDecoration(
-//                            border: Border.all(width: 2,color: Colors.green),
-//                            shape: BoxShape.circle,
-//                            // You can use like this way or like the below line
-//                            //borderRadius: new BorderRadius.circular(30.0),
-//                            color: Colors.white,
-//                          ),
-//                          child:Column(
-//                            crossAxisAlignment: CrossAxisAlignment.center,
-//                            mainAxisAlignment: MainAxisAlignment.center,
-//                            children: <Widget>[
-//                              Text('ABC',style: TextStyle(color: Colors.green)),
-//                            ],
-//                          ),
-//                        ),
-//                        SizedBox(height: 15),
-//                        Text('Pending',style: mainStyle.text14)
-//                      ],
-//                    ),
-//                  ],
-//                ),
-//              ),
-//              Container(
-//                width: double.infinity,
-//                child: Padding(
-//                  padding: const EdgeInsets.all(8.0),
-//                  child: RaisedButton(
-//                    color: Colors.orangeAccent,
-//                    onPressed: (){
-//                      Navigator.push(context, MaterialPageRoute(builder: (context)=>PlaceOrder()));
-//                    },
-//                    child: Text('Place Order',style: TextStyle(color: Colors.white),),
-//                  ),
-//                ),
-//              ),
               SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15,8,8,8),
@@ -311,7 +210,7 @@ class OrderHistotyState extends State<OrderHistory> {
                   }
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Loading',style: mainStyle.text18),
+                    child: Text('Loading..',style: mainStyle.text18),
                   );
                 }
                 ,),
@@ -323,17 +222,14 @@ class OrderHistotyState extends State<OrderHistory> {
   }
 
   Future<String> getorders() async {
-    print('empididdddddddddddd $empid');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order'));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', empid);
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }

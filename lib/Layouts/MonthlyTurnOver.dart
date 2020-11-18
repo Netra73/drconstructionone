@@ -30,9 +30,7 @@ class MonthlyState extends State<MonthlyTurnOver>{
   void initState() {
     selectedYear = formatter.format(now);
     selectedMonth = formatter2.format(now);
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +72,6 @@ class MonthlyState extends State<MonthlyTurnOver>{
                     onChanged: (newValue) {
                       selectedYear = newValue;
                       setState(() {
-                        //  totalAmt = a.toString();
-                        //   editedValue.text = totalAmt;
                       });
                     },
                     items: mapYear.map((quant) {
@@ -119,8 +115,7 @@ class MonthlyState extends State<MonthlyTurnOver>{
                     onChanged: (newValue) {
                       selectedMonth = newValue;
                       setState(() {
-                        //  totalAmt = a.toString();
-                        //   editedValue.text = totalAmt;
+
                       });
                     },
                     items: mapMonth.map((quant) {
@@ -177,11 +172,8 @@ class MonthlyState extends State<MonthlyTurnOver>{
                       }else{
                         order2 = order;
                       }
-
                       monthlyList.add(MonthlyModule(name,achived2,order2,quantity));
-
                     }
-                   // print('length  ${targetList.length}');
                   }
                   return Form(
                     key: _loginForm,
@@ -231,7 +223,6 @@ class MonthlyState extends State<MonthlyTurnOver>{
                                       itemCount: monthlyList.length,
                                       itemBuilder: (context,i){
                                         return Row(
-                                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
                                                 width:120,
@@ -267,14 +258,12 @@ class MonthlyState extends State<MonthlyTurnOver>{
               }
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Loading',style: mainStyle.text18),
+                child: Text('Loading..',style: mainStyle.text18),
               );
             },
           ),
         ],
       ),
-
-
     );
   }
 }
@@ -284,8 +273,6 @@ Future<String> getorders(String year,String Month) async {
   HttpClient httpClient = new HttpClient();
   HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'target/all/?year='+year+'&month='+Month));
   request.headers.set('Content-type', 'application/json');
-  // request.headers.set('Authorization', empid);
-  // request.add(utf8.encode(json.encode(body)));
   HttpClientResponse response = await request.close();
   httpClient.close();
   if(response.statusCode==200) {

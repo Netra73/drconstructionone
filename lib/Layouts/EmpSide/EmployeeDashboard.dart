@@ -30,8 +30,6 @@ class EmpDash extends StatefulWidget{
   final drawerItems = [
     new DrawerItem("Home", Icons.home),
     new DrawerItem("Order History", Icons.history),
-   // new DrawerItem("Order History", Icons.list),
-//    new DrawerItem("Product List", Icons.list),
     new DrawerItem("Logout", Icons.exit_to_app)
   ];
   @override
@@ -198,28 +196,6 @@ class EmpFrag1State extends State<EmpFrag1> {
 
   }
 
-//  void initState() {
-//
-//      getData("USERData").then((value) {
-//        var response = jsonDecode(value);
-//        print('saved data empppppppp $response');
-//        var data = response['userData'];
-//        empid = data['id'];
-//
-//        print('idiniit $empid');
-//
-////        getorders().then((value) {
-////          var response1 = jsonDecode(value);
-////          print('getOrderValue $response1');
-////        });
-//
-//      });
-//
-//     setState(() {
-//
-//     });
-//  }
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -246,9 +222,8 @@ class EmpFrag1State extends State<EmpFrag1> {
                           var response = jsonDecode(snap.data);
                           if(response['status']==200){
                             var data = response['data'];
-                            print('targetlist $data');
-                            String totalTarget = data['totalTraget'];
-                            String totalAchived = data['totalAchived'];
+                            String totalTarget = data['totalTraget'].toString();
+                            String totalAchived = data['totalAchived'].toString();
                             if(totalTarget==null){
                               Ntarget = "0";
                             }else{
@@ -303,8 +278,6 @@ class EmpFrag1State extends State<EmpFrag1> {
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 2,color: Colors.orangeAccent),
                                             shape: BoxShape.circle,
-                                            // You can use like this way or like the below line
-                                            //borderRadius: new BorderRadius.circular(30.0),
                                             color: Colors.white,
                                           ),
                                           child:Column(
@@ -338,8 +311,6 @@ class EmpFrag1State extends State<EmpFrag1> {
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 2,color: Colors.blue),
                                             shape: BoxShape.circle,
-                                            // You can use like this way or like the below line
-                                            //borderRadius: new BorderRadius.circular(30.0),
                                             color: Colors.white,
                                           ),
                                           child:Column(
@@ -372,8 +343,6 @@ class EmpFrag1State extends State<EmpFrag1> {
                                           decoration: BoxDecoration(
                                             border: Border.all(width: 2,color: Colors.green),
                                             shape: BoxShape.circle,
-                                            // You can use like this way or like the below line
-                                            //borderRadius: new BorderRadius.circular(30.0),
                                             color: Colors.white,
                                           ),
                                           child:Column(
@@ -609,17 +578,14 @@ class EmpFrag1State extends State<EmpFrag1> {
   }
 
   Future<String> getorders() async {
-    print('empididdddddddddddd $empid');
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order'));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', empid);
-   // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {
       String reply = await response.transform(utf8.decoder).join();
-      print('placed print $reply');
       return reply;
     }
   }
@@ -628,7 +594,6 @@ class EmpFrag1State extends State<EmpFrag1> {
     final response = await http.get(API_URL+'target/'+empid+'?year='+year+'&month='+Month);
     if(response.statusCode == 200){
       String reply = response.body;
-      print(reply);
       return reply;
     }
   }

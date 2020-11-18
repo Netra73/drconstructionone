@@ -22,20 +22,6 @@ class LoginState extends State<Login>{
   String password;
   bool inValid = false;
 
-//  @override
-//  void initState() {
-//    checkData("USERData").then((value) {
-//      if(value){
-//        setState(() {
-//          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//              AdminDash()), (Route<dynamic> route) => false);
-//        });
-//      }else{
-//        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> Login()), (Route<dynamic>route) => false);
-//      }
-//    });
-//  }
-
   _showLoading() {
     return showDialog<void>(
       context: context,
@@ -69,7 +55,6 @@ class LoginState extends State<Login>{
         margin: const EdgeInsets.only(top: 40),
         child: Stack(
           children: <Widget> [
-            // margin: const EdgeInsets.only(top: 50),
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(image: AssetImage('assets/images/background.png'),fit: BoxFit.cover),
@@ -98,7 +83,6 @@ class LoginState extends State<Login>{
                         padding: const EdgeInsets.all(14.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(height: 15),
                             TextFormField(style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding:EdgeInsets.all(14),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
@@ -110,8 +94,8 @@ class LoginState extends State<Login>{
                               ),),labelText: 'Mobile Number',labelStyle: (TextStyle(color: Colors.grey)),
                                 hintText: 'Mobile Number',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))),cursorColor: Colors.black,keyboardType: TextInputType.number,
                               validator: (value){
-                                if (value == null || value.isEmpty) {
-                                  return 'Mobile Number is required';
+                                if (value == null || value.isEmpty || value.length != 10) {
+                                  return 'Valid Mobile Number is required';
                                 }
                                 return null;
                               },
@@ -140,17 +124,6 @@ class LoginState extends State<Login>{
                               },
                             ),
                             SizedBox(height: 10,),
-//                            GestureDetector(
-//                                onTap: (){
-//                                  _forgotPass();
-//                                },
-//                                child: Container(
-//                                    alignment: Alignment.topRight,
-//                                    child: Padding(
-//                                      padding: const EdgeInsets.all(8.0),
-//                                      child: Text('Forgot Password?',textAlign: TextAlign.end,style: TextStyle(color: Colors.black),),
-//                                    ))
-//                            ),
                             SizedBox(height: 30),
                             Container(
                               //alignment: Alignment.center,
@@ -165,7 +138,6 @@ class LoginState extends State<Login>{
                                   if(_loginForm.currentState.validate()){
                                     _loginForm.currentState.save();
                                     _login(username,password);
-                                    //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminDash()));
                                   }
                                 },
                                 color: Colors.red,
@@ -235,8 +207,6 @@ class LoginState extends State<Login>{
                                   width: 100,
                                   child: RaisedButton(
                                     onPressed: (){
-//                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//                                    Myapp(0)), (Route<dynamic> route) => false);
                                     },
                                     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                                     color: Colors.black,
@@ -248,8 +218,6 @@ class LoginState extends State<Login>{
                                   child: RaisedButton(
                                     onPressed: (){
                                       Navigator.pop(context);
-//                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-//                                    Myapp(0)), (Route<dynamic> route) => false);
                                     },
                                     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
                                     color: Colors.red,
@@ -288,7 +256,6 @@ class LoginState extends State<Login>{
     UserLogin(body).then((value){
       Navigator.pop(context);
       var response = jsonDecode(value);
-      print('login value $response');
       if(response['status'] == 422){
         setState(() {
           inValid = true;
@@ -299,7 +266,6 @@ class LoginState extends State<Login>{
           inValid = false;
           var data = response['data'];
           String loginType = data['loginType'];
-          //  setData("USERMail", email).then((value){
           setData("USERData", jsonEncode(data)).then((value) {
             if(loginType == "Admin"){
               Navigator.of(context).pushAndRemoveUntil(
@@ -314,7 +280,6 @@ class LoginState extends State<Login>{
             }
           });
         });
-        // });}
       }});
   }
 
