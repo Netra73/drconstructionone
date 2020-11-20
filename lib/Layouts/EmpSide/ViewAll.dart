@@ -95,6 +95,7 @@ class ViewAllState extends State<ViewAll> {
                             String dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(orderDate));
                             String strbtn;
                             int colorchoose;
+                            String times;
                             List<Color> _colors = [ //Get list of colors
                               Colors.orangeAccent,
                               Colors.blue,
@@ -102,15 +103,21 @@ class ViewAllState extends State<ViewAll> {
                             ];
                             if(status.toString() == "1"){
                               strbtn = "Order";
+                              times =  details['orderDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 0;
 
                             }
                             if(status.toString() == "2"){
                               strbtn = "Schduled";
+                              times =  details['scheduleDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 1;
                             }
                             if(status.toString() == "3"){
                               strbtn = "Completed";
+                              times =  details['completeDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 2;
                             }
 
@@ -233,7 +240,6 @@ class ViewAllState extends State<ViewAll> {
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order'));
     request.headers.set('Content-type', 'application/json');
     request.headers.set('Authorization', empid);
-    // request.add(utf8.encode(json.encode(body)));
     HttpClientResponse response = await request.close();
     httpClient.close();
     if(response.statusCode==200) {

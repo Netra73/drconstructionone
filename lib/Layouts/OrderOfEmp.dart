@@ -21,7 +21,7 @@ class OrderOfEmp extends StatefulWidget{
 }
 
 class OrderOfEmpState extends State<OrderOfEmp>{
-  String eid,type;
+  String eid,type,Tname;
   OrderOfEmpState(this.eid,this.type);
 
   List<Color> _colors = [ //Get list of colors
@@ -30,6 +30,17 @@ class OrderOfEmpState extends State<OrderOfEmp>{
     Colors.green,
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(type=="2"){
+      Tname = "Scheduled Orders";
+    }
+    if(type=="3"){
+      Tname = "Completed Orders";
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +48,7 @@ class OrderOfEmpState extends State<OrderOfEmp>{
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Pending List',style: TextStyle(color: Colors.red)),
+        title: Text(Tname,style: TextStyle(color: Colors.red)),
         iconTheme: IconThemeData(color: Colors.red),
       ),
       body: SingleChildScrollView(
@@ -61,6 +72,7 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                           if(details['product']!=null){
                             String id = details['id'];
                             var user = details['user'];
+                            var orderTotal = details['orderTotal'];
                             var status = details['status'];
                             String name = user['name'];
                             String mobile = user['mobile'];
@@ -74,6 +86,7 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                             String dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(orderDate));
                             String strbtn;
                             int colorchoose;
+                            String times;
                             List<Color> _colors = [ //Get list of colors
                               Colors.orangeAccent,
                               Colors.blue,
@@ -81,19 +94,25 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                             ];
                             if(status.toString() == "1"){
                               strbtn = "Order";
+                              times =  details['orderDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 0;
 
                             }
                             if(status.toString() == "2"){
                               strbtn = "Schduled";
+                              times =  details['scheduleDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 1;
                             }
                             if(status.toString() == "3"){
                               strbtn = "Completed";
+                              times =  details['completeDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 2;
                             }
 
-                            recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,'1',name,mobile));
+                            recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,orderTotal,name,mobile));
                           }
                         }
                         return Container(
@@ -152,7 +171,6 @@ class OrderOfEmpState extends State<OrderOfEmp>{
                                                       Text('₹${recentList[i].orTotal}',style: mainStyle.text14),
                                                     ],
                                                   ),
-
                                                 ],
                                               ),
                                               SizedBox(height: 10),
@@ -215,6 +233,7 @@ Future<String> getorders(String empid,String type) async {
   httpClient.close();
   if(response.statusCode==200) {
     String reply = await response.transform(utf8.decoder).join();
+    print('dateChangeeee $reply');
     return reply;
   }
 }

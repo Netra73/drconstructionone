@@ -42,6 +42,24 @@ class AdminDash extends StatefulWidget{
 
 class AdminDashState extends State<AdminDash>{
   int _selectedDrawerIndex = 0;
+  String AdmName="";
+  String AdmMob="";
+
+  @override
+  void initState() {
+    getData("USERData").then((value) {
+      var response = jsonDecode(value);
+      print('saved data empppppppp $response');
+      var data = response['userData'];
+      AdmName = data['name'];
+      print('AdminDAATa $AdmName');
+      AdmMob = data['mobile'];
+      print('AdminDAATa $AdmMob');
+    });
+    setState(() {
+
+    });
+  }
 
   _getDrawerItemWidget(int pos) {
     switch (pos) {
@@ -122,7 +140,16 @@ class AdminDashState extends State<AdminDash>{
          child: new Column(
            children: <Widget>[
                DrawerHeader(
-                 child: Center(child: Text('DR CONSTRUCTIONS',style: TextStyle(fontSize: 20,color: Colors.red),)),
+                 child: Center(child: Column(
+                   children: [
+                     SizedBox(height: 10),
+                     Text('DR CONSTRUCTIONS',style: TextStyle(fontSize: 20,color: Colors.red),),
+                     SizedBox(height: 5),
+                     Text(AdmName,style:mainStyle.text16,),
+                     SizedBox(height: 5),
+                     Text(AdmMob,style:mainStyle.text16)
+                   ],
+                 )),
                ),
               new Column(children: drawerOptions)
        ],
@@ -131,7 +158,6 @@ class AdminDashState extends State<AdminDash>{
       body: _getDrawerItemWidget(_selectedDrawerIndex),
      );
   }
-  
 }
 
 //fragments
@@ -149,8 +175,8 @@ class FirstFragmentState extends State<FirstFragment> {
     Colors.blue,
     Colors.green,
   ];
-  String typeId = "1";
-  String recentOrder = "Pending Orders";
+  String typeId = "2";
+  String recentOrder = "Scheduled Orders";
   var Norder="0",Nscheduled="0",Ncompleted="0";
   List<RecentOrModule>recentList = [];
 
@@ -182,106 +208,109 @@ class FirstFragmentState extends State<FirstFragment> {
                   }
                   return  Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap :(){
-                                typeId = "1";
-                                recentOrder = "Pending Orders";
-                                setState(() {
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20,right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+//                        Column(
+//                          children: [
+//                            GestureDetector(
+//                              onTap :(){
+//                                typeId = "1";
+//                                recentOrder = "Pending Orders";
+//                                setState(() {
+//
+//                                });
+//                              },
+//                              child: Container(
+//                                width: 90,
+//                                height: 90,
+//                                decoration: BoxDecoration(
+//                                  border: Border.all(width: 2,color: Colors.orangeAccent),
+//                                  shape: BoxShape.circle,
+//                                  // You can use like this way or like the below line
+//                                  //borderRadius: new BorderRadius.circular(30.0),
+//                                  color: Colors.white,
+//                                ),
+//                                child:Column(
+//                                  crossAxisAlignment: CrossAxisAlignment.center,
+//                                  mainAxisAlignment: MainAxisAlignment.center,
+//                                  children: <Widget>[
+//                                    Text(Norder.toString(),style: TextStyle(color: Colors.orangeAccent)),
+//                                  ],
+//                                ),
+//
+//                              ),
+//                            ),
+//                            SizedBox(height: 15),
+//                            Text('Pending',style: mainStyle.text14)
+//                          ],
+//                        ),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap :(){
+                                  typeId = "2";
+                                  recentOrder = "Scheduled Orders";
+                                  setState(() {
 
-                                });
-                              },
-                              child: Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 2,color: Colors.orangeAccent),
-                                  shape: BoxShape.circle,
-                                  // You can use like this way or like the below line
-                                  //borderRadius: new BorderRadius.circular(30.0),
-                                  color: Colors.white,
-                                ),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(Norder.toString(),style: TextStyle(color: Colors.orangeAccent)),
-                                  ],
-                                ),
-
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Text('Pending',style: mainStyle.text14)
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap :(){
-                                typeId = "2";
-                                recentOrder = "Scheduled Orders";
-                                setState(() {
-
-                                });
-                              },
-                              child: Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 2,color: Colors.blue),
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(Nscheduled.toString(),style: TextStyle(color: Colors.blue)),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 15),
-                            Text('Scheduled',style: mainStyle.text14)
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            GestureDetector(
-                              onTap :(){
-                                typeId = "3";
-                                recentOrder = "Completed Orders";
-                                setState(() {
-
-                                });
-                              },
-                              child: Container(
-                                width: 90,
-                                height: 90,
-                                decoration: BoxDecoration(
-                                  border: Border.all(width: 2,color: Colors.green),
-                                  shape: BoxShape.circle,
-                                  color: Colors.white,
-                                ),
-                                child:Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(Ncompleted.toString(),style: TextStyle(color: Colors.green)),
-                                  ],
+                                  });
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 2,color: Colors.blue),
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child:Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(Nscheduled.toString(),style: TextStyle(color: Colors.blue)),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 15),
-                            Text('Completed',style: mainStyle.text14)
-                          ],
-                        ),
-                      ],
+                              SizedBox(height: 15),
+                              Text('Scheduled',style: mainStyle.text14)
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              GestureDetector(
+                                onTap :(){
+                                  typeId = "3";
+                                  recentOrder = "Completed Orders";
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Container(
+                                  width: 100,
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 2,color: Colors.green),
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                  ),
+                                  child:Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Text(Ncompleted.toString(),style: TextStyle(color: Colors.green)),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Text('Completed',style: mainStyle.text14)
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -313,6 +342,7 @@ class FirstFragmentState extends State<FirstFragment> {
                           String dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(orderDate));
                           String strbtn;
                           int colorchoose;
+                          String times;
                           List<Color> _colors = [ //Get list of colors
                             Colors.orangeAccent,
                             Colors.blue,
@@ -320,15 +350,21 @@ class FirstFragmentState extends State<FirstFragment> {
                           ];
                           if(status.toString() == "1"){
                             strbtn = "Pending";
+                            times =  details['orderDate'];
+                            dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                             colorchoose = 0;
 
                           }
                           if(status.toString() == "2"){
                             strbtn = "Scheduled";
+                            times =  details['scheduleDate'];
+                            dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                             colorchoose = 1;
                           }
                           if(status.toString() == "3"){
                             strbtn = "Completed";
+                            times =  details['completeDate'];
+                            dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                             colorchoose = 2;
                           }
                           recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,orderTotal,name,mobile));

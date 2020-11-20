@@ -125,9 +125,7 @@ class EditSettingsState extends State<EditSettings>{
                             ),),
                               hintText: 'Mail Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                             validator: (value){
-                              if(value == null || value.isEmpty) {
                                 return emailRequired(value, "Valid Mail Id is required");
-                              }
                             },
                             onSaved: (value){
                               EMail = value;

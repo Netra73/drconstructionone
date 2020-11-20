@@ -113,9 +113,8 @@ class EditEmpState extends State<EditEmp>{
                              ),),
                                hintText: 'Mail Id',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                              validator: (value){
-                               if(value == null || value.isEmpty) {
-                                 return emailRequired(value, "Valid Mail Id is required");
-                               }
+                                return emailRequired(value, "Valid Mail Id is required");
+
                              },
                              onSaved: (value){
                                EMail = value;

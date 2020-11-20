@@ -357,7 +357,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                 SizedBox(height: 10),
                                // SizedBox(height: 10),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Container(
                                       width: 100,
@@ -432,132 +432,139 @@ class PlaceOrderState extends State<PlaceOrder>{
                                         ,),
                                     ),
                                     Container(
-                                      width:100,
-                                      child: ListTileTheme(
-                                        contentPadding: EdgeInsets.zero,
-                                        child: CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text("GST"),
-                                          activeColor: Colors.red,
-                                          value: checkgst,
-                                          onChanged: (newValue) {
-                                            checkgst = newValue;
-                                            int etr = 0;
+                                      width:80,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                           // contentPadding: EdgeInsets.zero,
+                                           // title: Text("GST"),
+                                            activeColor: Colors.red,
+                                            value: checkgst,
+                                            onChanged: (newValue) {
+                                              checkgst = newValue;
+                                              int etr = 0;
 
-                                            String ad = distanceHolder.text;
+                                              String ad = distanceHolder.text;
 
-                                            if(ad != ""){
-                                              int d1 = int.parse(ad);
-                                              int z1 = int.parse(freeLimit);
-                                              int a2 = (d1 - z1)as int;
+                                              if(ad != ""){
+                                                int d1 = int.parse(ad);
+                                                int z1 = int.parse(freeLimit);
+                                                int a2 = (d1 - z1)as int;
 
-                                              if(a2>0){
-                                                etr = int.parse(extraCharge) * a2;
+                                                if(a2>0){
+                                                  etr = int.parse(extraCharge) * a2;
+
+                                                }else{
+                                                  etr = 0;
+                                                }
+                                              }
+
+                                              amt = int.parse(totalamt) + etr;
+                                              totalAfDiCh = amt;
+
+                                              //if gst box is checked
+                                              if(checkgst){
+                                                int gstAmt1 = amt * int.parse(gstRate);
+                                                double gstAmt2 = gstAmt1 / 100;
+                                                int Gst = gstAmt2.round();
+                                                GstforCard = Gst;
+                                                amt = amt+Gst;
 
                                               }else{
-                                                etr = 0;
+                                                amt = amt+0;
+                                                GstforCard = 0;
                                               }
-                                            }
 
-                                            amt = int.parse(totalamt) + etr;
-                                            totalAfDiCh = amt;
+                                              if(checkPump){
+                                                int p1 = int.parse(pumpCharge);
+                                                pumpforCard = p1;
+                                                amt = amt+p1;
 
-                                            //if gst box is checked
-                                            if(checkgst){
-                                              int gstAmt1 = amt * int.parse(gstRate);
-                                              double gstAmt2 = gstAmt1 / 100;
-                                              int Gst = gstAmt2.round();
-                                              GstforCard = Gst;
-                                              amt = amt+Gst;
+                                              }else{
+                                                amt = amt+0;
+                                                pumpforCard = 0;
+                                              }
 
-                                            }else{
-                                              amt = amt+0;
-                                              GstforCard = 0;
-                                            }
+                                              totalAmtCardd = amt;
+                                              totalAmtHolder.text = amt.toString();
+                                              totalAmtCard = amt;
+                                              setState(() {
 
-                                            if(checkPump){
-                                              int p1 = int.parse(pumpCharge);
-                                              pumpforCard = p1;
-                                              amt = amt+p1;
+                                              });
 
-                                            }else{
-                                              amt = amt+0;
-                                              pumpforCard = 0;
-                                            }
+                                            },
+                                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                           // controlAffinity: ListTileControlAffinity.leading,
 
-                                            totalAmtCardd = amt;
-                                            totalAmtHolder.text = amt.toString();
-                                            totalAmtCard = amt;
-                                            setState(() {
-
-                                            });
-
-                                          },
-                                          controlAffinity: ListTileControlAffinity.leading,
-                                        ),
+                                          ),
+                                          Text("GST",style: mainStyle.text14,),
+                                        ],
                                       ),
                                     ),
                                     Container(
-                                      width: 100,
-                                      child: ListTileTheme(
-                                        contentPadding: EdgeInsets.zero,
-                                        child: CheckboxListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text("Pump"),
-                                          activeColor: Colors.red,
-                                          value: checkPump,
-                                          onChanged: (newValue) {
-                                            checkPump = newValue;
-                                            int etr = 0;
+                                      width: 80,
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                           // contentPadding: EdgeInsets.zero,
+                                          //  title: Text("Pump"),
+                                            activeColor: Colors.red,
+                                            value: checkPump,
+                                            onChanged: (newValue) {
+                                              checkPump = newValue;
+                                              int etr = 0;
 
-                                            String ad = distanceHolder.text;
+                                              String ad = distanceHolder.text;
 
-                                            if(ad != ""){
-                                              int d1 = int.parse(ad);
-                                              int z1 = int.parse(freeLimit);
-                                              int a2 = (d1 - z1)as int;
+                                              if(ad != ""){
+                                                int d1 = int.parse(ad);
+                                                int z1 = int.parse(freeLimit);
+                                                int a2 = (d1 - z1)as int;
 
-                                              if(a2>0){
-                                                etr = int.parse(extraCharge) * a2;
-                                              }else{
-                                                etr = 0;
+                                                if(a2>0){
+                                                  etr = int.parse(extraCharge) * a2;
+                                                }else{
+                                                  etr = 0;
+                                                }
                                               }
-                                            }
 
-                                            amt = int.parse(totalamt) + etr;
-                                            totalAfDiCh = amt;
+                                              amt = int.parse(totalamt) + etr;
+                                              totalAfDiCh = amt;
 
-                                            //if gst box is checked
-                                            if(checkgst){
-                                              int gstAmt1 = amt * int.parse(gstRate);
-                                              double gstAmt2 = gstAmt1 / 100;
-                                              int Gst = gstAmt2.round();
-                                              GstforCard = Gst;
-                                              amt = amt+Gst;
-                                            }else{
-                                              amt = amt+0;
-                                              GstforCard = 0;
-                                            }
+                                              //if gst box is checked
+                                              if(checkgst){
+                                                int gstAmt1 = amt * int.parse(gstRate);
+                                                double gstAmt2 = gstAmt1 / 100;
+                                                int Gst = gstAmt2.round();
+                                                GstforCard = Gst;
+                                                amt = amt+Gst;
+                                              }else{
+                                                amt = amt+0;
+                                                GstforCard = 0;
+                                              }
 
-                                            if(checkPump){
-                                              int p1 = int.parse(pumpCharge);
-                                              pumpforCard = p1;
-                                              amt = amt+p1;
-                                            }else{
-                                              amt = amt+0;
-                                              pumpforCard = 0;
-                                            }
+                                              if(checkPump){
+                                                int p1 = int.parse(pumpCharge);
+                                                pumpforCard = p1;
+                                                amt = amt+p1;
+                                              }else{
+                                                amt = amt+0;
+                                                pumpforCard = 0;
+                                              }
 
-                                            totalAmtCardd = amt;
-                                            totalAmtHolder.text = amt.toString();
-                                            totalAmtCard = amt;
-                                            setState(() {
+                                              totalAmtCardd = amt;
+                                              totalAmtHolder.text = amt.toString();
+                                              totalAmtCard = amt;
+                                              setState(() {
 
-                                            });
+                                              });
 
-                                          },
-                                          controlAffinity: ListTileControlAffinity.leading,
-                                        ),
+                                            },
+                                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                           // controlAffinity: ListTileControlAffinity.leading,
+                                          ),
+                                          Text('Pump',style: mainStyle.text14,),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -575,7 +582,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                         children: [
                           SizedBox(height: 10),
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.fromLTRB(2,6,2,6),
                             child: Container(
                               decoration: BoxDecoration(border: Border.all(color: Colors.black,
                                 width: 1.0,),borderRadius: new BorderRadius.circular(15.0),),
@@ -621,7 +628,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                                         mainAxisAlignment:  MainAxisAlignment.end,
                                         children: [
                                           Text('',style: mainStyle.text14light),
-                                          Text('After Adding :   ',style: mainStyle.text14light),
+                                          Text('Sub Total :   ',style: mainStyle.text14light),
                                           Text(totalAfDiCh.toString(),style: mainStyle.text14),
                                         ],
                                       ),
@@ -657,9 +664,7 @@ class PlaceOrderState extends State<PlaceOrder>{
                           ),
                           SizedBox(height: 10),
                         ],
-
                       ),
-
                     ),
                     if(totalAmtCard>0)Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -739,17 +744,23 @@ class PlaceOrderState extends State<PlaceOrder>{
                         ),
                       ],
                     ),
-                    CheckboxListTile(
-                      contentPadding:EdgeInsets.only(left: 8,top: 0,bottom: 0),
-                      title: Text("Payment"),
-                      activeColor: Colors.red,
-                      value: checkedValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          checkedValue = newValue;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
+                    Row(
+                      children: [
+                        Checkbox(
+                          //contentPadding:EdgeInsets.only(left: 8,top: 0,bottom: 0),
+                         // title: Text("Payment"),
+                          activeColor: Colors.red,
+                          value: checkedValue,
+                          onChanged: (newValue) {
+                            setState(() {
+                              checkedValue = newValue;
+                            });
+                          },
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                         // controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        Text("Payment",style: mainStyle.text16,),
+                      ],
                     ),
                     if(checkedValue)Container(
                       color: Colors.white,
@@ -883,17 +894,23 @@ class PlaceOrderState extends State<PlaceOrder>{
                         ),
                       ),
                     ),
-                    CheckboxListTile(
-                      contentPadding:EdgeInsets.only(left: 8,top: 0,bottom: 0),
-                      title: Text("Notify Customer With SMS ?"),
-                      activeColor: Colors.red,
-                      value: checkSms,
-                      onChanged: (newValue) {
-                        setState(() {
-                          checkSms = newValue;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
+                    Row(
+                      children: [
+                        Checkbox(
+                         // contentPadding:EdgeInsets.only(left: 8,top: 0,bottom: 0),
+                         // title: Text("Notify Customer With SMS ?"),
+                          activeColor: Colors.red,
+                          value: checkSms,
+                          onChanged: (newValue) {
+                            setState(() {
+                              checkSms = newValue;
+                            });
+                          },
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                         // controlAffinity: ListTileControlAffinity.leading,
+                        ),
+                        Text("Notify Customer With SMS ?",style: mainStyle.text16,),
+                      ],
                     ),
                     Container(
                       height: 40,
@@ -1012,7 +1029,7 @@ class PlaceOrderState extends State<PlaceOrder>{
       'sms':strSms,
     };
 
-
+    print("bodytocheckkkk $body");
     placeOrder(body).then((value) {
       Navigator.pop(context);
       var response = jsonDecode(value);
@@ -1031,9 +1048,10 @@ class PlaceOrderState extends State<PlaceOrder>{
         paidAmtHolder.text = '';
         _date.text = '';
         var data = response['data'];
+        print("responsedata $data");
         String id = data['id'];
         String status = data['status'];
-        _successDialog(id,status);
+        filterdialog(id,status);
 
       }
       setState(() {
@@ -1079,10 +1097,8 @@ class PlaceOrderState extends State<PlaceOrder>{
 
         int d1 = int.parse(str);
 
-
         int z1 = int.parse(freeLimit);
         int a2 = (d1 - z1)as int;
-
 
         int etr = 0;
         if(a2>0){
@@ -1150,7 +1166,6 @@ class PlaceOrderState extends State<PlaceOrder>{
       return reply;
     }
   }
-
 
   Future<String> getProducts() async {
     final response = await http.get(API_URL+'product');
@@ -1458,7 +1473,7 @@ class ScheduleState2 extends State<ScheduleOrder2>{
       st = "2";
     }
     if(status == "2"){
-      st = "3";
+      st = "2";
     }
     var body = {
       'orderId' : oId,

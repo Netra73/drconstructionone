@@ -223,7 +223,7 @@ class EmpFrag1State extends State<EmpFrag1> {
                           if(response['status']==200){
                             var data = response['data'];
                             String totalTarget = data['totalTraget'].toString();
-                            String totalAchived = data['totalAchived'].toString();
+                            String totalAchived = data['totalAchived'].toString() ;
                             if(totalTarget==null){
                               Ntarget = "0";
                             }else{
@@ -247,12 +247,12 @@ class EmpFrag1State extends State<EmpFrag1> {
                             }
                             print('ccccccc $c');
                           }
-                          if(response['status']==422){
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text('No Data',style: mainStyle.text18),
-                            );
-                          }
+//                          if(response['status']==422){
+//                            return Padding(
+//                              padding: const EdgeInsets.all(8.0),
+//                              child: Text('No Data',style: mainStyle.text18),
+//                            );
+//                          }
                         }
                         return Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -355,7 +355,7 @@ class EmpFrag1State extends State<EmpFrag1> {
                                         ),
                                       ),
                                       SizedBox(height: 15),
-                                      Text('Pending',style: mainStyle.text14)
+                                      Text('Remaining',style: mainStyle.text14)
                                     ],
                                   ),
                                 ],
@@ -416,6 +416,7 @@ class EmpFrag1State extends State<EmpFrag1> {
                             String dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(orderDate));
                             String strbtn;
                             int colorchoose;
+                            String times;
                             List<Color> _colors = [ //Get list of colors
                               Colors.orangeAccent,
                               Colors.blue,
@@ -423,15 +424,20 @@ class EmpFrag1State extends State<EmpFrag1> {
                             ];
                             if(status.toString() == "1"){
                               strbtn = "Pending";
+                              times =  details['orderDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 0;
-
                             }
                             if(status.toString() == "2"){
                               strbtn = "Scheduled";
+                              times =  details['scheduleDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 1;
                             }
                             if(status.toString() == "3"){
                               strbtn = "Completed";
+                              times =  details['completeDate'];
+                              dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(times));
                               colorchoose = 2;
                             }
                             recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,orderTotal,name,mobile));
@@ -568,7 +574,6 @@ class EmpFrag1State extends State<EmpFrag1> {
                     child: Text('Loading',style: mainStyle.text18),
                   );
                 }
-
                 ,),
             ],
           ),

@@ -161,6 +161,7 @@ class MonthlyState extends State<MonthlyTurnOver>{
                       String name = user['name'];
                       String achived2;
                       String order2;
+                      String qty2;
                       if(achived == "null"){
                         achived2 = "0";
                       }else{
@@ -172,7 +173,14 @@ class MonthlyState extends State<MonthlyTurnOver>{
                       }else{
                         order2 = order;
                       }
-                      monthlyList.add(MonthlyModule(name,achived2,order2,quantity));
+
+                      if(quantity == "null"){
+                        qty2 = "0";
+                      }else{
+                        qty2 = quantity;
+                      }
+
+                      monthlyList.add(MonthlyModule(name,achived2,order2,qty2));
                     }
                   }
                   return Form(

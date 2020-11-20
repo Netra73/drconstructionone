@@ -215,10 +215,10 @@ class SecondFragmentState extends State<SecondFragment> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
-                                    flex: 3,
+                                    flex: 2,
                                     child: GestureDetector(
                                       onTap: (){
-                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderOfEmp(empList[i].id,"1")));
+                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderOfEmp(empList[i].id,"2")));
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
@@ -227,31 +227,31 @@ class SecondFragmentState extends State<SecondFragment> {
                                         ),
                                         child: Padding(
                                           padding: const EdgeInsets.all(12.0),
-                                          child: Text('Pending',textAlign: TextAlign.center,),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderOfEmp(empList[i].id,"2")));
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.blue,
-                                          borderRadius: BorderRadius.all(Radius.circular(0)),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(12.0),
                                           child: Text('Scheduled',textAlign: TextAlign.center,),
                                         ),
                                       ),
                                     ),
                                   ),
+//                                  Expanded(
+//                                    flex: 3,
+//                                    child: GestureDetector(
+//                                      onTap: (){
+//                                        Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderOfEmp(empList[i].id,"2")));
+//                                      },
+//                                      child: Container(
+//                                        decoration: BoxDecoration(
+//                                          color: Colors.blue,
+//                                          borderRadius: BorderRadius.all(Radius.circular(0)),
+//                                        ),
+//                                        child: Padding(
+//                                          padding: const EdgeInsets.all(12.0),
+//                                          child: Text('Scheduled',textAlign: TextAlign.center,),
+//                                        ),
+//                                      ),
+//                                    ),
+//                                  ),
                                   Expanded(
-                                    flex: 3,
+                                    flex: 2,
                                     child: GestureDetector(
                                       onTap: (){
                                         Navigator.push(context,MaterialPageRoute(builder: (context)=>OrderOfEmp(empList[i].id,"3")));
