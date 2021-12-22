@@ -1,4 +1,4 @@
-
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -531,7 +531,7 @@ class FirstFragmentState extends State<FirstFragment> {
   }
 
   Future<String> getSettings() async {
-    final response = await http.get(API_URL+'Athentication/settings');
+    final response = await http.get(Uri.parse(API_URL+'Athentication/settings'));
     if(response.statusCode == 200){
       String reply = response.body;
       print(reply);

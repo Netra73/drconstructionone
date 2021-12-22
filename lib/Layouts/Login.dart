@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -5,6 +6,7 @@ import 'package:drconstructions/Functions/Config.dart';
 import 'package:drconstructions/Functions/UserData.dart';
 import 'file:///E:/FlutterProjects/dr_constructions/lib/Layouts/EmpSide/EmployeeDashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 
 import 'AdminDashboard.dart';
 class Login extends StatefulWidget{
@@ -18,8 +20,8 @@ class Login extends StatefulWidget{
 
 class LoginState extends State<Login>{
   final _loginForm  = GlobalKey<FormState>();
-  String username;
-  String password;
+  String username="";
+  String password="";
   bool inValid = false;
 
   _showLoading() {
@@ -46,6 +48,11 @@ class LoginState extends State<Login>{
     );
   }
 
+
+  @override
+  void initState() {
+    secureScreen();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -295,6 +302,10 @@ class LoginState extends State<Login>{
       String reply = await response.transform(utf8.decoder).join();
       return reply;
     }
+  }
+
+  Future<void> secureScreen() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
 
 }

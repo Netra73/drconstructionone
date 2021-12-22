@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -44,7 +45,9 @@ class PlaceOrderState extends State<PlaceOrder>{
   int pumpforCard = 0;
   int totalAfDiCh = 0;
   int totalAmtCardd = 0;
-  String paymentMode,radioPay,dateFormate,EName,EMob,EAddress,EAmt,Eqty,selectedrate="0",totalamt,selectedId="0",empid,Epayid,EpaidAmt,Edist,GstNo,strDate;
+  String paymentMode="",radioPay="",dateFormate="",EName="",EMob="",EAddress="",
+      EAmt="",Eqty="",selectedrate="0",totalamt="",selectedId="0",empid="",Epayid="",
+      EpaidAmt="",Edist="",GstNo="",strDate="";
 
   bool checkedValue = false;
   bool checkSms = false;
@@ -1168,7 +1171,7 @@ class PlaceOrderState extends State<PlaceOrder>{
   }
 
   Future<String> getProducts() async {
-    final response = await http.get(API_URL+'product');
+    final response = await http.get(Uri.parse(API_URL+'product'));
     if(response.statusCode == 200){
       String reply = response.body;
       print(reply);
@@ -1178,7 +1181,7 @@ class PlaceOrderState extends State<PlaceOrder>{
 
   //to get distances and some details
   Future<String> getSettings() async {
-    final response = await http.get(API_URL+'Athentication/settings');
+    final response = await http.get(Uri.parse(API_URL+'Athentication/settings'));
     if(response.statusCode == 200){
       String reply = response.body;
       print(reply);
@@ -1311,12 +1314,12 @@ class ScheduleOrder2 extends StatefulWidget{
 }
 
 class ScheduleState2 extends State<ScheduleOrder2>{
-  String oId,empid,status;
+  String oId="",empid="",status="";
   ScheduleState2(this.oId,this.status);
 
   DateTime selectedDate = DateTime.now();
   final format = DateFormat("dd-MM-yyyy HH:mm");
-  String dateFormate,strDate,strDrive,strVehicle;
+  String dateFormate="",strDate="",strDrive="",strVehicle="";
   var _date = TextEditingController();
   final _loginForm = GlobalKey<FormState>();
   var driveHolder = TextEditingController();
@@ -1340,7 +1343,6 @@ class ScheduleState2 extends State<ScheduleOrder2>{
 
   @override
   Widget build(BuildContext context) {
-
     // TODO: implement build
     return  Form(
       key: _loginForm,
@@ -1467,7 +1469,7 @@ class ScheduleState2 extends State<ScheduleOrder2>{
 
   void scheduleOrder(){
     _showLoading();
-    String st;
+    String st="";
 
     if(status == "1"){
       st = "2";
@@ -1512,7 +1514,7 @@ class ScheduleState2 extends State<ScheduleOrder2>{
       });
   }
 
-  Future<String> scheduleMethod(body) async {
+  Future<String>scheduleMethod(body) async {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.putUrl(Uri.parse(API_URL+'order'));
     request.headers.set('Content-type', 'application/json');
@@ -1525,6 +1527,4 @@ class ScheduleState2 extends State<ScheduleOrder2>{
       return reply;
     }
   }
-
-
 }

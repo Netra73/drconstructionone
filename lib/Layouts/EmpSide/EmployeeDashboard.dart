@@ -49,7 +49,7 @@ class EmpDashState extends State<EmpDash>{
   @override
   void initState() {
     getData("USERData").then((value) {
-      var response = jsonDecode(value);
+      var response = jsonDecode(value!);
       print('saved data empppppppp $response');
       var data = response['userData'];
       empName = data['name'];
@@ -68,8 +68,7 @@ class EmpDashState extends State<EmpDash>{
         return new OrderHistory();
       case 2:
         return _logout() ;
-
-      default:
+        default:
         return new Text("Error");
     }
   }
@@ -79,7 +78,7 @@ class EmpDashState extends State<EmpDash>{
     Navigator.of(context).pop(); // close the drawer
   }
 
-  _logout(){
+  _logout() {
     removeData("USERData").then((value) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) =>
@@ -175,9 +174,9 @@ class EmpFrag1State extends State<EmpFrag1> {
   var now = new DateTime.now();
   var formatter = new DateFormat('yyyy');
   var formatter2 = new DateFormat('MM');
-  String selectedYear ;
-  String selectedMonth;
-  String empid,strStatus,strbtn;
+  String selectedYear ="";
+  String selectedMonth="";
+  String empid="",strStatus="",strbtn="";
   List<Color> _colors = [ //Get list of colors
     Colors.orangeAccent,
     Colors.blue,
@@ -207,19 +206,19 @@ class EmpFrag1State extends State<EmpFrag1> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-             FutureBuilder(
+             FutureBuilder<String?>(
                future: getData("USERData"),
                builder: (context,snap){
                  if(snap.hasData){
-                   var response = jsonDecode(snap.data);
+                   var response = jsonDecode(snap.data!);
                    print('saved data empppppppp $response');
                     var data = response['userData'];
                     empid = data['id'];
-                    return  FutureBuilder(
+                    return  FutureBuilder<String?>(
                       future: getTarget(selectedYear,selectedMonth),
                       builder: (context,snap){
                         if(snap.hasData){
-                          var response = jsonDecode(snap.data);
+                          var response = jsonDecode(snap.data!);
                           if(response['status']==200){
                             var data = response['data'];
                             String totalTarget = data['totalTraget'].toString();
@@ -386,11 +385,11 @@ class EmpFrag1State extends State<EmpFrag1> {
                 ),
               ),
               SizedBox(height: 0),
-              FutureBuilder(
+              FutureBuilder<String?>(
                 future: getorders(),
                 builder: (context,snapshot){
                   if(snapshot.hasData){
-                    var response = jsonDecode(snapshot.data);
+                    var response = jsonDecode(snapshot.data!);
                     if(response['status']==200){
                       recentList.clear();
                       var data = response['data'];
@@ -414,8 +413,8 @@ class EmpFrag1State extends State<EmpFrag1> {
                             String site = location['site'];
                             String orderDate = details['orderDate'];
                             String dateFormate = DateFormat("dd-MM-yyyy HH:mm").format(DateTime.parse(orderDate));
-                            String strbtn;
-                            int colorchoose;
+                            String strbtn="";
+                            int colorchoose = 0;
                             String times;
                             List<Color> _colors = [ //Get list of colors
                               Colors.orangeAccent,
@@ -573,8 +572,8 @@ class EmpFrag1State extends State<EmpFrag1> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text('Loading',style: mainStyle.text18),
                   );
-                }
-                ,),
+                },
+              ),
             ],
           ),
         ),
@@ -582,7 +581,7 @@ class EmpFrag1State extends State<EmpFrag1> {
     );
   }
 
-  Future<String> getorders() async {
+  Future<String?> getorders() async {
     HttpClient httpClient = new HttpClient();
     HttpClientRequest request = await httpClient.getUrl(Uri.parse(API_URL+'order'));
     request.headers.set('Content-type', 'application/json');
@@ -595,8 +594,8 @@ class EmpFrag1State extends State<EmpFrag1> {
     }
   }
 
-  Future<String> getTarget(String year,String Month) async {
-    final response = await http.get(API_URL+'target/'+empid+'?year='+year+'&month='+Month);
+  Future<String?> getTarget(String year,String Month) async {
+    final response = await http.get(Uri.parse(API_URL+'target/'+empid+'?year='+year+'&month='+Month));
     if(response.statusCode == 200){
       String reply = response.body;
       return reply;

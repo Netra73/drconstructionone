@@ -88,24 +88,24 @@ class SecondFragmentState extends State<SecondFragment> {
           ),
           FutureBuilder(
           future: getOrders(),
-    builder: (context,snapshot){
-    if(snapshot.hasData){
-    var response = jsonDecode(snapshot.data);
-    if(response['status']==200){
-    empList.clear();
-    var data = response['data'];
-    for(var details in data){
-    String id = details['id'];
-    String name = details['name'];
-    String mobile = details['mobile'];
-    String email = details['email'];
-    String address = details['address'];
-    String regDate = details['regDate'];
-    String status = details['status'];
-    if(status == "1"){
-      empList.add(empModule(id,name,mobile,email,address,regDate,status));
-    }
-    }
+          builder: (context,snapshot){
+          if(snapshot.hasData){
+          var response = jsonDecode(snapshot.data);
+          if(response['status']==200){
+          empList.clear();
+          var data = response['data'];
+          for(var details in data){
+            String id = details['id'];
+            String name = details['name'];
+            String mobile = details['mobile'];
+            String email = details['email'];
+            String address = details['address'];
+            String regDate = details['regDate'];
+            String status = details['status'];
+       if(status == "1"){
+         empList.add(empModule(id,name,mobile,email,address,regDate,status));
+        }
+      }
            return Container(
              child: Expanded(
                child: ListView.builder(
@@ -387,7 +387,6 @@ class SecondFragmentState extends State<SecondFragment> {
                               ],
                             ),
                           ),
-
                           SizedBox(height: 5),
                         ],
                       ),

@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,7 +24,7 @@ class OrderHistory extends StatefulWidget{
 class OrderHistotyState extends State<OrderHistory> {
 
   final DateTime now = DateTime.now();
-  String empid,strStatus,strbtn;
+  String empid="",strStatus="",strbtn="";
   List<Color> _colors = [ //Get list of colors
     Colors.orangeAccent,
     Colors.blue,
@@ -79,6 +80,7 @@ class OrderHistotyState extends State<OrderHistory> {
                           var user = details['user'];
                           var status = details['status'];
                           String name = user['name'];
+                          var orderTotal = details['orderTotal'];
                           String mobile = user['mobile'];
                           var product = details['product'];
                           String pname = product['name'];
@@ -98,7 +100,6 @@ class OrderHistotyState extends State<OrderHistory> {
                           if(status.toString() == "1"){
                             strbtn = "Order";
                             colorchoose = 0;
-
                           }
                           if(status.toString() == "2"){
                             strbtn = "Scheduled";
@@ -108,8 +109,7 @@ class OrderHistotyState extends State<OrderHistory> {
                             strbtn = "Completed";
                             colorchoose = 2;
                           }
-
-                          recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,'1',name,mobile));
+                          recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,orderTotal,name,mobile));
                         }
 
                       }

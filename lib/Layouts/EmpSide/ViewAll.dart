@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,7 +24,7 @@ class ViewAll extends StatefulWidget{
 class ViewAllState extends State<ViewAll> {
 
   final DateTime now = DateTime.now();
-  String empid,strStatus,strbtn;
+  String empid="",strStatus="",strbtn="";
   List<Color> _colors = [ //Get list of colors
     Colors.orangeAccent,
     Colors.blue,
@@ -84,6 +85,7 @@ class ViewAllState extends State<ViewAll> {
                             var user = details['user'];
                             var status = details['status'];
                             String name = user['name'];
+                            var orderTotal = details['orderTotal'];
                             String mobile = user['mobile'];
                             var product = details['product'];
                             String pname = product['name'];
@@ -121,7 +123,7 @@ class ViewAllState extends State<ViewAll> {
                               colorchoose = 2;
                             }
 
-                            recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,'1',name,mobile));
+                            recentList.add(RecentOrModule(id,pname,quantity,site,dateFormate,strbtn,colorchoose,orderTotal,name,mobile));
                           }
 
                         }

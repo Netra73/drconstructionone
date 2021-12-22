@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -15,7 +16,8 @@ class Settings extends StatefulWidget{
 }
 
 class Settingsstate extends State<Settings>{
-  String Name,email,mobile,freeLimit,extraCharge,gstRate,id,pumpCharge;
+String Name="",email="",mobile="",freeLimit="",extraCharge="",gstRate="",id="",pumpCharge="";
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -193,4 +195,6 @@ Future<String> getSettings() async {
     return reply;
   }
 }
+
+
 

@@ -26,7 +26,6 @@ class EditSettingsState extends State<EditSettings>{
       this.aextracharge, this.agstRate, this.apump);
 
   final _loginForm = GlobalKey<FormState>();
-  final _passForm = GlobalKey<FormState>();
   var nameHolder = TextEditingController();
   var pass1Holder = TextEditingController();
   var pass2Holder = TextEditingController();

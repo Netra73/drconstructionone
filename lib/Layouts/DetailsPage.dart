@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'dart:convert';
 import 'dart:io';
 
@@ -25,7 +26,8 @@ class DetailsPage extends StatefulWidget{
 }
 
 class DetailsPageState extends State<DetailsPage>{
-  String Eid,ordate,scdate,cmdate,pendingstatus="0",strStatus,strbtn,colorCng,dateFormate,empid;
+  String Eid="",ordate="",scdate="",cmdate="",pendingstatus="0",
+      strStatus="",strbtn="",colorCng="",dateFormate="",empid="";
   DateTime selectedDate = DateTime.now();
   var data,product,location,payment,customer,entry,status;
   List<paymentList>payList = [];
@@ -34,12 +36,11 @@ class DetailsPageState extends State<DetailsPage>{
   bool paymentStatus = false;
   bool dateStatusSc = false;
   bool dateStatuscm = false;
-  int colorchoose;
-  int colorchoosebtn;
-
+  int colorchoose=0;
+  int colorchoosebtn=0;
 
   //
-  String radioPay,Epayid,EpaidAmt,strDate;
+  String radioPay="",Epayid="",EpaidAmt="",strDate="";
   var payidHolder = TextEditingController();
   var paidAmtHolder = TextEditingController();
   final _loginForm = GlobalKey<FormState>();
@@ -95,7 +96,7 @@ class DetailsPageState extends State<DetailsPage>{
                        data = response['data'];
                       String date = data['orderDate'];
                       String date2 = data['scheduleDate'];
-                     String date3 = data['completedDate'];
+                      String date3 = data['completedDate'];
                      if(date2==null || date2=="0000-00-00 00:00:00"){
                        dateStatusSc = false;
                      }else{
@@ -547,8 +548,8 @@ class DetailsPageState extends State<DetailsPage>{
                                                 hintText: 'Transaction Ref. No.',focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey))),cursorColor: Colors.grey,textCapitalization: TextCapitalization.sentences,
                                               onSaved: (value){
                                                 Epayid = value;
-                                              }
-                                              ,),
+                                              },
+                                            ),
                                             SizedBox(height: 10),
                                             TextFormField(controller: paidAmtHolder,style:TextStyle(fontSize: 16.0),decoration: InputDecoration(contentPadding: EdgeInsets.all(10),border: OutlineInputBorder(borderRadius: const BorderRadius.all(
                                               const Radius.circular(0.0),
